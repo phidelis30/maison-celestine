@@ -1,0 +1,77 @@
+{%- comment -%}
+  ============================================================================
+  KNR — Layout dédié à la PDP Maison Célestine
+  Utilisé par les templates déclarant "layout": "knr-pdp".
+
+  Trois régions :
+    1. HEAD      — métadonnées, polices, feuille de style et script scopés KNR
+    2. TEMPLATE  — en-tête (groupe), contenu du template, pied de page (groupe)
+    3. FOOTER    — fin de document
+
+  Les snippets appelés ici sont ceux du thème de base, afin que la PDP hérite
+  exactement des mêmes réinitialisations CSS et variables de thème.
+  ============================================================================
+{%- endcomment -%}
+<!doctype html>
+<html
+  {% if request.design_mode %}
+    class="shopify-design-mode"
+  {% endif %}
+  lang="{{ request.locale.iso_code }}"
+  dir="{{ request.locale.direction | default: 'ltr' }}"
+>
+  <head>
+    {%- comment -%} ---------- 1. HEAD ---------- {%- endcomment -%}
+    {%- if settings.favicon != blank -%}
+      <link
+        rel="icon"
+        type="image/png"
+        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+      >
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
+    {%- render 'stylesheets' -%}
+    {%- render 'fonts' -%}
+    {%- render 'scripts' -%}
+    {%- render 'theme-styles-variables' -%}
+    {%- render 'color-palette' -%}
+
+    {%- comment -%} Typographie de la maquette Figma {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    >
+
+    {%- comment -%} Styles et interactions scopés KNR {%- endcomment -%}
+    {{ 'knr-pdp.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'knr-pdp.js' | asset_url }}" defer="defer"></script>
+
+    {% if request.design_mode %}
+      {%- render 'theme-editor' -%}
+    {% endif %}
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} knr-body-pdp">
+    {%- comment -%} ---------- 2. TEMPLATE ---------- {%- endcomment -%}
+    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+
+    <div class="knr-page-wrapper">
+      {%- comment -%} En-tête : bandeau d'annonce + header {%- endcomment -%}
+      {% sections 'knr-header-group' %}
+
+      <main id="MainContent" class="content-for-layout" role="main" tabindex="-1">
+        {{ content_for_layout }}
+      </main>
+
+      {%- comment -%} Pied de page : réassurance + footer {%- endcomment -%}
+      {% sections 'knr-footer-group' %}
+    </div>
+
+    {%- comment -%} ---------- 3. FOOTER ---------- {%- endcomment -%}
+  </body>
+</html>

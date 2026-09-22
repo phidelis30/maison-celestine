@@ -1,0 +1,189 @@
+{%- comment -%}
+  KNR Luxury Footer Section
+{%- endcomment -%}
+
+<footer class="knr-footer knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 80 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 40 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 64 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 0 }}px;">
+  <div class="knr-footer__container">
+    
+    <!-- 4 Columns Navigation & About -->
+    <div class="knr-footer__grid">
+      <!-- Col 1 -->
+      <div class="knr-footer__col">
+        <h4 class="knr-footer__col-title">{{ section.settings.col1_title | default: "Découvrir" }}
+          <img src="{{ 'chevron-icon3.svg' | asset_url }}" alt="" class="knr-footer__col-toggle" width="16" height="20"></h4>
+        <ul class="knr-footer__menu">
+          {%- assign col1_menu = linklists[section.settings.col1_menu] -%}
+          {%- if col1_menu != blank and col1_menu.links.size > 0 -%}
+            {%- for link in col1_menu.links -%}
+              <li class="knr-footer__menu-item"><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            <li class="knr-footer__menu-item"><a href="/collections/all">Acheter</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/notre-histoire">Notre histoire</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/science">Science</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/presse">Presse</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/points-de-vente">Où nous trouver</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <!-- Col 2 -->
+      <div class="knr-footer__col">
+        <h4 class="knr-footer__col-title">{{ section.settings.col2_title | default: "Service client" }}
+          <img src="{{ 'chevron-icon3.svg' | asset_url }}" alt="" class="knr-footer__col-toggle" width="16" height="20"></h4>
+        <ul class="knr-footer__menu">
+          {%- assign col2_menu = linklists[section.settings.col2_menu] -%}
+          {%- if col2_menu != blank and col2_menu.links.size > 0 -%}
+            {%- for link in col2_menu.links -%}
+              <li class="knr-footer__menu-item"><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            <li class="knr-footer__menu-item"><a href="/account">Mon compte</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/suivi">Suivre mon colis</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/livraison">Livraison & retour</a></li>
+            <li class="knr-footer__menu-item"><a href="#faqs">FAQs</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/contact">Nous contacter</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <!-- Col 3 -->
+      <div class="knr-footer__col">
+        <h4 class="knr-footer__col-title">{{ section.settings.col3_title | default: "Légal & Transparence" }}
+          <img src="{{ 'chevron-icon3.svg' | asset_url }}" alt="" class="knr-footer__col-toggle" width="16" height="20"></h4>
+        <ul class="knr-footer__menu">
+          {%- assign col3_menu = linklists[section.settings.col3_menu] -%}
+          {%- if col3_menu != blank and col3_menu.links.size > 0 -%}
+            {%- for link in col3_menu.links -%}
+              <li class="knr-footer__menu-item"><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            <li class="knr-footer__menu-item"><a href="/policies/terms-of-service">Conditions générales de vente</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/mentions-legales">Mentions légales</a></li>
+            <li class="knr-footer__menu-item"><a href="#cookies">Paramètres des cookies</a></li>
+            <li class="knr-footer__menu-item"><a href="/pages/accessibilite">Accessibilité</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <!-- Col 4: About & Cert -->
+      <div class="knr-footer__col knr-footer__col--about">
+        <h4 class="knr-footer__col-title">{{ section.settings.about_title | default: "À propos de Maison Célestine" }}</h4>
+        <p class="knr-footer__about-text">
+          {{ section.settings.about_text | default: "Maison Célestine est une marque de soins anti-âge haut de gamme formulée autour d’actifs rares et certifiés biologiques, guidée par une expertise médicale et un rituel simple, précis et efficace." }}
+        </p>
+        <div class="knr-footer__cert">
+          <img src="{{ 'calque-10.svg' | asset_url }}" alt="ECOCERT" class="knr-footer__cert-logo" width="47" height="56">
+          <div class="knr-footer__cert-info">
+            <span class="knr-footer__cert-text">Certifié COSMOS ORGANIC par ECOCERT Greenlife</span>
+          </div>
+          <a href="/pages/certificat" class="knr-footer__cert-btn">Voir le certificat</a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="knr-footer__logo-container">
+    <div class="knr-footer__watermark" aria-hidden="true">
+      <img src="{{ 'reinsurance-background0.svg' | asset_url }}" alt="" width="1440" height="142" loading="lazy">
+    </div>
+    <!-- Bottom Bar: Country / Lang, Copyright, Socials -->
+    <div class="knr-footer__bottom">
+      <div class="knr-footer__selectors">
+        <div class="knr-footer__selector-item">
+          <span>France (€)</span>
+          <img src="{{ 'chevron-icon3.svg' | asset_url }}" alt="v" width="16" height="20">
+        </div>
+        <div class="knr-footer__selector-item">
+          <span>Français</span>
+          <img src="{{ 'chevron-icon4.svg' | asset_url }}" alt="v" width="16" height="20">
+        </div>
+      </div>
+
+      <div class="knr-footer__copyright">
+        © {{ 'now' | date: "%Y" }} Maison Célestine. Tous droits réservés.
+      </div>
+
+      <div class="knr-footer__socials">
+        <a href="https://facebook.com" class="knr-footer__social-icon" target="_blank" rel="noopener" aria-label="Facebook">
+          <img src="{{ 'facebook-link0.svg' | asset_url }}" alt="Facebook" width="20" height="20">
+        </a>
+        <a href="https://instagram.com" class="knr-footer__social-icon" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="{{ 'instagram-link0.svg' | asset_url }}" alt="Instagram" width="20" height="20">
+        </a>
+        <a href="https://tiktok.com" class="knr-footer__social-icon" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="{{ 'tik-tok-link0.svg' | asset_url }}" alt="TikTok" width="20" height="20">
+        </a>
+        <a href="https://linkedin.com" class="knr-footer__social-icon" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <img src="{{ 'linked-in-link0.svg' | asset_url }}" alt="LinkedIn" width="20" height="20">
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "KNR Pied de page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    { "type": "text", "id": "col1_title", "label": "Titre Colonne 1", "default": "Découvrir" },
+    { "type": "link_list", "id": "col1_menu", "label": "Menu Colonne 1", "default": "footer" },
+    { "type": "text", "id": "col2_title", "label": "Titre Colonne 2", "default": "Service client" },
+    { "type": "link_list", "id": "col2_menu", "label": "Menu Colonne 2" },
+    { "type": "text", "id": "col3_title", "label": "Titre Colonne 3", "default": "Légal & Transparence" },
+    { "type": "link_list", "id": "col3_menu", "label": "Menu Colonne 3" },
+    { "type": "text", "id": "about_title", "label": "Titre À propos", "default": "À propos de Maison Célestine" },
+    { "type": "textarea", "id": "about_text", "label": "Texte À propos", "default": "Maison Célestine est une marque de soins anti-âge haut de gamme formulée autour d’actifs rares et certifiés biologiques, guidée par une expertise médicale et un rituel simple, précis et efficace." }
+  ],
+  "presets": [
+    {
+      "name": "KNR Pied de page"
+    }
+  ]
+}
+{% endschema %}

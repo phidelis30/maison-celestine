@@ -1,0 +1,187 @@
+{%- comment -%}
+  KNR Luxury Header Section
+{%- endcomment -%}
+
+<header class="knr-header knr-width--{{ section.settings.content_width | default: 'wide' }} knr-header--logo-{{ section.settings.logo_position | default: 'left' }} knr-header--menu-{{ section.settings.menu_position | default: 'center' }}"
+  data-sticky="{% if section.settings.enable_sticky == false %}false{% else %}true{% endif %}" style="--knr-pt: {{ section.settings.padding_top | default: 0 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 0 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 0 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 0 }}px;" id="knr-header">
+  <a href="{{ routes.root_url }}" class="knr-header__logo" aria-label="{{ shop.name }}">
+    {%- if section.settings.custom_logo != blank -%}
+      <img src="{{ section.settings.custom_logo | image_url: width: 320 }}" alt="{{ shop.name }}" width="160" height="17">
+    {%- else -%}
+      <img src="{{ 'union0.svg' | asset_url }}" alt="Maison Célestine" width="160" height="17">
+    {%- endif -%}
+  </a>
+
+  <nav class="knr-header__nav" id="knr-nav" aria-label="Navigation principale">
+    {%- comment -%} Shown only inside the mobile drawer {%- endcomment -%}
+    <a href="{{ routes.root_url }}" class="knr-header__nav-logo" aria-label="{{ shop.name }}" tabindex="-1">
+      {%- if section.settings.custom_logo != blank -%}
+        <img src="{{ section.settings.custom_logo | image_url: width: 260 }}" alt="{{ shop.name }}" width="130" height="14">
+      {%- else -%}
+        <img src="{{ 'union0.svg' | asset_url }}" alt="{{ shop.name }}" width="130" height="14">
+      {%- endif -%}
+    </a>
+
+    {%- assign menu = linklists[section.settings.menu] -%}
+    {%- if menu != blank and menu.links.size > 0 -%}
+      {%- for link in menu.links -%}
+        <a href="{{ link.url }}" class="knr-header__link">{{ link.title }}</a>
+      {%- endfor -%}
+    {%- else -%}
+      <a href="/collections/all" class="knr-header__link">Produits</a>
+      <a href="/pages/diagnostique" class="knr-header__link">Diagnostique</a>
+      <a href="/pages/la-marque" class="knr-header__link">La marque</a>
+      <a href="/blogs/journal" class="knr-header__link">Journal</a>
+    {%- endif -%}
+  </nav>
+
+  <div class="knr-header__actions">
+    {%- if section.settings.show_locator -%}
+      <a href="/pages/points-de-vente" class="knr-header__icon" aria-label="Boutiques">
+        <img src="{{ 'marker-pin-010.svg' | asset_url }}" alt="Store locator" width="16" height="16">
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.show_account -%}
+      <a href="{{ routes.account_url }}" class="knr-header__icon knr-header__icon--account" aria-label="Compte">
+        <img src="{{ 'user-icon0.svg' | asset_url }}" alt="Account" width="18" height="18">
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.show_search -%}
+      <a href="{{ routes.search_url }}" class="knr-header__icon" aria-label="Recherche">
+        <img src="{{ 'search-icon0.svg' | asset_url }}" alt="Search" width="16" height="16">
+      </a>
+    {%- endif -%}
+
+    <a href="{{ routes.cart_url }}" class="knr-header__icon knr-header__cart-trigger" aria-label="Panier">
+      <img src="{{ 'shopping-bag-icon0.svg' | asset_url }}" alt="Cart" width="16" height="16">
+      <span class="knr-header__cart-badge" id="knr-cart-count" style="display: {% if cart.item_count > 0 %}flex{% else %}none{% endif %};">
+        {{ cart.item_count }}
+      </span>
+    </a>
+
+    <button type="button" class="knr-header__burger" id="knr-burger" aria-label="Menu" aria-expanded="false" aria-controls="knr-nav">
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "KNR En-tête (Header)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Position du logo",
+      "options": [
+        { "value": "left", "label": "Gauche" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "menu_position",
+      "label": "Position du menu",
+      "options": [
+        { "value": "left", "label": "Gauche" },
+        { "value": "center", "label": "Centre" },
+        { "value": "right", "label": "Droite" }
+      ],
+      "default": "center",
+      "info": "Évitez « Centre » pour le menu si le logo est déjà centré."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "En-tête fixe au défilement",
+      "info": "L'en-tête reste visible en haut de l'écran quand on fait défiler la page.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_logo",
+      "label": "Logo personnalisé (optionnel)"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu de navigation",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locator",
+      "label": "Afficher l'icône localisation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Afficher l'icône compte client",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Afficher l'icône recherche",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR En-tête (Header)"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,141 @@
+{%- comment -%}
+  KNR Reassurance Badges Section
+{%- endcomment -%}
+
+<section class="knr-reassurance knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 80 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 80 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 80 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 80 }}px;">
+  <div class="knr-reassurance__container">
+    {%- for block in section.blocks -%}
+      <div class="knr-reassurance-item" {{ block.shopify_attributes }}>
+        <h3 class="knr-reassurance-item__title">{{ block.settings.title }}</h3>
+        <div class="knr-reassurance-item__text">{{ block.settings.text }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KNR Réassurance",
+  "blocks": [
+    {
+      "type": "reassurance_item",
+      "name": "Badge de réassurance",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Livraison offerte"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Livraison offerte dès 60 € d'achat en France métropolitaine."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR Réassurance",
+      "blocks": [
+        {
+          "type": "reassurance_item",
+          "settings": {
+            "title": "Livraison offerte",
+            "text": "Livraison offerte<br>dès 60 € d'achat<br>en France métropolitaine."
+          }
+        },
+        {
+          "type": "reassurance_item",
+          "settings": {
+            "title": "Retours gratuits",
+            "text": "Retours acceptés<br>jusqu'à 30 jours<br>après réception."
+          }
+        },
+        {
+          "type": "reassurance_item",
+          "settings": {
+            "title": "Paiement sécurisé",
+            "text": "Paiement 100 % sécurisé<br>par carte bancaire,<br>PayPal ou virement."
+          }
+        },
+        {
+          "type": "reassurance_item",
+          "settings": {
+            "title": "Service client",
+            "text": "Du lundi au vendredi<br>de 9h à 18h par email<br>et téléphone."
+          }
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        {
+          "value": "full",
+          "label": "Pleine largeur"
+        },
+        {
+          "value": "wide",
+          "label": "Large"
+        },
+        {
+          "value": "box",
+          "label": "Boîte"
+        }
+      ],
+      "default": "wide"
+    }
+  ]
+}
+{% endschema %}

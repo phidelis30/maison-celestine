@@ -1,0 +1,186 @@
+{%- comment -%}
+  KNR Latest News / Editorial Section
+{%- endcomment -%}
+
+<section class="knr-latest-news knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 0 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 0 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 0 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 0 }}px;">
+  <div class="knr-latest-news__container">
+    <div class="knr-latest-news__header">
+      <h2 class="knr-section-heading">{{ section.settings.title | default: "Latest news" }}</h2>
+      <a href="{{ section.settings.blog.url | default: '/blogs/journal' }}" class="knr-latest-news__view-all">
+        {{ section.settings.link_text | default: "Voir tous les articles" }}
+      </a>
+    </div>
+
+    <div class="knr-latest-news__grid">
+      {%- if section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
+        {%- for article in section.settings.blog.articles limit: 4 -%}
+          <div class="knr-news-card">
+            {%- if article.image != blank -%}
+              <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.title }}" class="knr-news-card__img" width="334" height="334" loading="lazy">
+            {%- else -%}
+              <img src="https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container0.png?v=1789999070" alt="{{ article.title }}" class="knr-news-card__img" width="334" height="334" loading="lazy">
+            {%- endif -%}
+
+            <div class="knr-news-card__body">
+              <div class="knr-news-card__meta">
+                <span class="knr-news-card__category">{{ article.tags.first | default: "Histoire" }}</span>
+                <div class="knr-news-card__divider"></div>
+              </div>
+
+              <h3 class="knr-news-card__title">{{ article.title }}</h3>
+              <div class="knr-news-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 140 }}</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <div class="knr-news-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title }}" class="knr-news-card__img" width="334" height="334" loading="lazy">
+            {%- elsif block.settings.fallback_image != blank -%}
+              <img src="{% if block.settings.fallback_image contains '//' %}{{ block.settings.fallback_image }}{% else %}{{ block.settings.fallback_image | asset_url }}{% endif %}" alt="{{ block.settings.title }}" class="knr-news-card__img" width="334" height="334" loading="lazy">
+            {%- endif -%}
+
+            <div class="knr-news-card__body">
+              <div class="knr-news-card__meta">
+                <span class="knr-news-card__category">{{ block.settings.category }}</span>
+                <div class="knr-news-card__divider"></div>
+              </div>
+
+              <h3 class="knr-news-card__title">{{ block.settings.title }}</h3>
+              <div class="knr-news-card__excerpt">{{ block.settings.excerpt }}</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="knr-carousel-progress" data-carousel-progress aria-hidden="true">
+      <span class="knr-carousel-progress__fill"></span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KNR Journal",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Latest news"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Texte du lien",
+      "default": "Voir tous les articles"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog à afficher"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "news_card",
+      "name": "Article éditorial",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "fallback_image", "label": "Asset de secours", "default": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container0.png?v=1789999070" },
+        { "type": "text", "id": "category", "label": "Catégorie / Thématique", "default": "L'origine" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Fondée en 2012 dans les Alpes" },
+        { "type": "textarea", "id": "excerpt", "label": "Extrait", "default": "Maison Célestine est née de la passion d'une botaniste pour les plantes alpines et leurs propriétés régénérantes exceptionnelles." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR Journal",
+      "blocks": [
+        {
+          "type": "news_card",
+          "settings": {
+            "fallback_image": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container0.png?v=1789999070",
+            "category": "L'origine",
+            "title": "Fondée en 2012 dans les Alpes",
+            "excerpt": "Maison Célestine est née de la passion d'une botaniste pour les plantes alpines et leurs propriétés régénérantes exceptionnelles."
+          }
+        },
+        {
+          "type": "news_card",
+          "settings": {
+            "fallback_image": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container1.png?v=1789999070",
+            "category": "La formule",
+            "title": "12 ingrédients actifs sélectionnés",
+            "excerpt": "Chaque ingrédient est sourcé chez des producteurs engagés : huile de rosier muscat, rétinol végétal, extrait de cactus Cactaceae."
+          }
+        },
+        {
+          "type": "news_card",
+          "settings": {
+            "fallback_image": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container2.png?v=1790000610",
+            "category": "L'expertise",
+            "title": "15 ans de recherche en lab",
+            "excerpt": "Notre laboratoire indépendant teste chaque formule sur des panels de peaux diverses, garantissant efficacité et tolérance."
+          }
+        },
+        {
+          "type": "news_card",
+          "settings": {
+            "fallback_image": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container3.png?v=1790000613",
+            "category": "L'engagement",
+            "title": "97 % naturel certifié",
+            "excerpt": "Emballages recyclables, formules biodégradables, compensation carbone intégrale. Beauté responsable, du champ au flacon."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

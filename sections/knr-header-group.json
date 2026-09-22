@@ -1,0 +1,52 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "KNR En-tête",
+  "type": "header",
+  "sections": {
+    "announcement_bar": {
+      "type": "knr-announcement-bar",
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0,
+        "content_width": "wide",
+        "show_announcement": true,
+        "message": "Livraison estimée sous 48h",
+        "link_text": "consectetur.",
+        "link_url": "",
+        "bg_color": "#000000",
+        "text_color": "#ffffff"
+      }
+    },
+    "header": {
+      "type": "knr-header",
+      "settings": {
+        "logo_position": "left",
+        "menu_position": "center",
+        "enable_sticky": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0,
+        "content_width": "wide",
+        "menu": "main-menu-knr",
+        "show_locator": true,
+        "show_account": true,
+        "show_search": true
+      }
+    }
+  },
+  "order": [
+    "announcement_bar",
+    "header"
+  ]
+}

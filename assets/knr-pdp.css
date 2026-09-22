@@ -1,0 +1,3863 @@
+/* ==========================================================================
+   KNR - MAISON CÉLESTINE LUXURY PDP STYLES (Scoped)
+   Design System: Figma Desktop (1440px) & Mobile (390px)
+   Typography: Inter Google Font
+   ========================================================================== */
+
+:root {
+  --knr-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --knr-black: #000000;
+  --knr-white: #ffffff;
+  --knr-gold: #b5a282;
+  --knr-cream: #f9f8f5;
+  --knr-border: #e5e5e5;
+  --knr-muted: rgba(0, 0, 0, 0.6);
+  --knr-faint: rgba(0, 0, 0, 0.24);
+  --knr-transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.knr-body-pdp {
+  margin: 0;
+  padding: 0;
+  font-family: var(--knr-font);
+  color: var(--knr-black);
+  background-color: var(--knr-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+.knr-page-wrapper {
+  max-width: 100%;
+  /* `hidden` would make this a scroll container (overflow-y resolves to auto),
+     which reserves a scrollbar gutter and costs 15px of page width. `clip`
+     suppresses the horizontal overflow without creating one. */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* Per-section content width (Full width / Wide / Box) */
+.knr-width--full { --knr-content-max: 100%; }
+.knr-width--wide { --knr-content-max: 1440px; }
+.knr-width--box  { --knr-content-max: 1200px; }
+
+/* --------------------------------------------------------------------------
+   THE ONE CONTENT INSET
+   Every knr- section lines its content up on the same edge as the header, so
+   picking the same content width in the editor really does give the same
+   width everywhere. --knr-edge is the minimum breathing room at the viewport
+   sides; past the content width the inset grows to centre the content.
+   Sections used to each carry their own 0 / 24 / 40 / 80px padding, which is
+   why they never agreed.
+   -------------------------------------------------------------------------- */
+.knr-page-wrapper { --knr-edge: 24px; }
+
+.knr-announcement-bar,
+.knr-header,
+.knr-how-to-use__container,
+.knr-before-after__container,
+.knr-faqs__container,
+.knr-reviews__container,
+.knr-latest-news__container,
+.knr-newsletter__container,
+.knr-reassurance__container,
+.knr-footer__container,
+.knr-footer__logo-container {
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: max(var(--knr-edge, 24px), calc((100% - var(--knr-content-max, 100%)) / 2));
+}
+
+
+
+.knr-pdp * {
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   1. ANNOUNCEMENT BAR
+   Figma ref: .announcement-region2 — 1440x32, absolute top 0, gap 3px,
+   link underlined with a 0.8px bottom border (not text-decoration).
+   -------------------------------------------------------------------------- */
+.knr-page-wrapper {
+  position: relative;
+}
+
+.knr-announcement-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  background-color: var(--knr-black);
+  color: var(--knr-white);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding-block: var(--knr-pt, 0px) var(--knr-pb, 0px);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 400;
+  text-align: center;
+  z-index: 50;
+}
+
+.knr-announcement-bar > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 2px;
+}
+
+.knr-announcement-bar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 2px;
+  color: var(--knr-white);
+  text-decoration: none;
+  border-bottom: 0.8px solid var(--knr-white);
+}
+
+/* --------------------------------------------------------------------------
+   2. HEADER
+   Figma ref: .announcement-region — 1440x56 at top 33, padding 0 24px,
+   actions gap 12px, account icon 18px, cart bubble 12px at left 94 / top 16.
+   -------------------------------------------------------------------------- */
+.knr-header {
+  position: absolute;
+  top: 33px;
+  left: 0;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--knr-pt, 0px) var(--knr-pb, 0px);
+  z-index: 40;
+  transition: background-color var(--knr-transition);
+}
+
+.knr-header.knr-header--scrolled {
+  position: fixed;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--knr-border);
+}
+
+.knr-header.knr-header--scrolled .knr-header__link {
+  color: var(--knr-black);
+}
+
+.knr-header.knr-header--scrolled .knr-header__logo img,
+.knr-header.knr-header--scrolled .knr-header__logo svg {
+  filter: invert(1);
+}
+
+.knr-header.knr-header--scrolled .knr-header__icon img,
+.knr-header.knr-header--scrolled .knr-header__icon svg {
+  filter: invert(1);
+}
+
+.knr-header__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.knr-header__logo img,
+.knr-header__logo svg {
+  width: 160px;
+  height: 17px;
+  display: block;
+  object-fit: contain;
+}
+
+.knr-header__nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  height: 56px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  overflow: hidden;
+}
+
+.knr-header__link {
+  color: var(--knr-white);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--knr-transition);
+}
+
+.knr-header__link:hover {
+  opacity: 0.75;
+}
+
+.knr-header__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 56px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.knr-header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--knr-white);
+  position: relative;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.knr-header__icon img,
+.knr-header__icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.knr-header__icon--account img,
+.knr-header__icon--account svg {
+  width: 18px;
+  height: 18px;
+}
+
+.knr-header__cart-badge {
+  position: absolute;
+  top: -4px;
+  left: 8px;
+  width: 12px;
+  height: 12px;
+  background-color: var(--knr-white);
+  color: var(--knr-black);
+  border-radius: 100px;
+  font-family: var(--knr-font);
+  font-size: 8px;
+  line-height: 8px;
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.knr-header.knr-header--scrolled .knr-header__cart-badge {
+  background-color: var(--knr-black);
+  color: var(--knr-white);
+}
+
+.knr-header__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 16px;
+  height: 5px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.knr-header__burger span {
+  display: block;
+  width: 16px;
+  height: 1px;
+  background-color: var(--knr-white);
+  transition: transform var(--knr-transition);
+}
+
+/* drawer logo — mobile only */
+.knr-header__nav-logo {
+  display: none;
+}
+
+/* The nav backdrop lives inside the header (shared stacking context), so it
+   must be out of flow at every breakpoint or it becomes a flex child and
+   shifts the icon group. */
+.knr-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0.35s;
+  z-index: 199;
+}
+
+.knr-nav-backdrop.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.knr-header.knr-header--scrolled .knr-header__burger span {
+  background-color: var(--knr-black);
+}
+
+/* ---- Header layout options (desktop only; on mobile the nav is a drawer) --
+   Scoped to min-width so these never out-specify the mobile drawer rules. */
+@media screen and (min-width: 769px) {
+  /* Menu position */
+  .knr-header--menu-center .knr-header__nav {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .knr-header--menu-left .knr-header__nav,
+  .knr-header--menu-right .knr-header__nav {
+    position: static;
+    transform: none;
+  }
+
+  .knr-header--menu-left .knr-header__nav {
+    margin-left: 32px;
+    margin-right: auto;
+  }
+
+  .knr-header--menu-right .knr-header__nav {
+    margin-left: auto;
+    margin-right: 32px;
+  }
+
+  /* Logo position */
+  .knr-header--logo-center .knr-header__logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Both centred would overlap — fall the menu back to the left */
+  .knr-header--logo-center.knr-header--menu-center .knr-header__nav {
+    position: static;
+    transform: none;
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* With the logo centred, the menu takes the space the logo left behind */
+  .knr-header--logo-center.knr-header--menu-left .knr-header__nav {
+    margin-left: 0;
+  }
+
+  .knr-header--logo-center.knr-header--menu-right .knr-header__nav {
+    margin-right: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. MAIN PRODUCT (PDP HERO)
+   Figma ref: hero image 1440x760 at y0; secondary images 944x617 at y760;
+   white info panel 456px wide at x944 / y128 (40px gutter to the right edge).
+   -------------------------------------------------------------------------- */
+.knr-main-product {
+  position: relative;
+  background-color: var(--knr-white);
+  padding-inline: 0;
+  padding-block: var(--knr-pt, 0px) var(--knr-pb, 0px);
+}
+
+.knr-main-product__container {
+  /* the container itself spans the viewport so the hero can bleed edge to
+     edge; --knr-inset is the shared content edge every knr- section uses, so
+     the panel and the photo list line up with the header. */
+  --knr-gutter: max(0px, calc((100% - var(--knr-content-max, 1440px)) / 2));
+  --knr-inset: max(var(--knr-edge, 24px), var(--knr-gutter));
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 456px var(--knr-inset);
+}
+
+/* The gallery spans every column so the info panel overlays it, but both sit
+   in the same grid row — so the section always grows to fit the taller of the
+   two. That keeps the gap to the next section constant whether the accordions
+   are open or closed. */
+.knr-gallery {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  position: relative;
+}
+
+.knr-gallery__main {
+  width: 100%;
+  height: 760px;
+  position: relative;
+  background-color: var(--knr-cream);
+  overflow: hidden;
+}
+
+.knr-gallery__main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity var(--knr-transition);
+}
+
+.knr-gallery__secondary-images {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  /* align with the content box, not the full-bleed hero */
+  width: calc(100% - 456px - (2 * var(--knr-inset)));
+  margin-inline-start: var(--knr-inset);
+  height: 617px;
+  padding-top: 8px;
+  /* exactly two photos in view; the rest scroll horizontally */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.knr-gallery__secondary-images::-webkit-scrollbar {
+  display: none;
+}
+
+.knr-gallery__secondary-img {
+  /* two per view, accounting for the 8px gutter between them */
+  flex: 0 0 calc((100% - 8px) / 2);
+  min-width: 0;
+  height: 609px;
+  object-fit: cover;
+  display: block;
+  scroll-snap-align: start;
+}
+
+/* pagination dots under the photo list */
+.knr-gallery__dots {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 456px - (2 * var(--knr-inset)));
+  margin-inline-start: var(--knr-inset);
+  padding: 16px 0 0 0;
+}
+
+/* flat bars, matching the delivery indicator and the mobile frame */
+.knr-gallery__dot {
+  width: 16px;
+  height: 1px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: #dcd5c3;
+  cursor: pointer;
+  transition: background-color var(--knr-transition);
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* a 1px bar is a poor tap target, so grow it invisibly */
+.knr-gallery__dot::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;
+  bottom: -10px;
+}
+
+.knr-gallery__dot:hover {
+  background-color: var(--knr-gold);
+}
+
+.knr-gallery__dot.is-active {
+  background-color: var(--knr-black);
+}
+
+/* selectable images below the hero */
+[data-gallery-select] {
+  cursor: pointer;
+  transition: opacity var(--knr-transition);
+}
+
+[data-gallery-select]:hover {
+  opacity: 0.88;
+}
+
+[data-gallery-select]:focus-visible {
+  outline: 1px solid var(--knr-faint);
+  outline-offset: -2px;
+}
+
+[data-gallery-select].is-selected {
+  outline: 1px solid var(--knr-faint);
+  outline-offset: -2px;
+  opacity: 1;
+}
+
+.knr-gallery--left_thumbnails {
+  display: flex;
+  gap: 16px;
+}
+
+.knr-gallery--left_thumbnails .knr-gallery__thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80px;
+}
+
+.knr-gallery--bottom_thumbnails .knr-gallery__thumbs {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.knr-gallery__thumb {
+  width: 70px;
+  height: 70px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 2px;
+  opacity: 0.6;
+  transition: all var(--knr-transition);
+}
+
+.knr-gallery__thumb.is-active,
+.knr-gallery__thumb:hover {
+  opacity: 1;
+  border-color: var(--knr-black);
+}
+
+.knr-gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- Product info panel ------------------------------------------------- */
+.knr-product-info {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  margin-top: 128px;
+  width: 456px;
+  background-color: var(--knr-white);
+  padding: 40px 40px 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Mobile-only helpers: transparent on desktop */
+.knr-product-info__inner {
+  display: contents;
+}
+
+.knr-gallery-progress,
+.knr-carousel-progress,
+.knr-gallery__arrow {
+  display: none;
+}
+
+.knr-footer__col-toggle {
+  display: none;
+}
+
+/* Vertical rhythm taken 1:1 from the Figma frame */
+.knr-badges { margin-top: 40px; }
+.knr-product-title-row { margin-top: 24px; }
+.knr-scores-row { margin-top: 24px; }
+.knr-short-desc { margin-top: 16px; }
+.knr-variants { margin-top: 40px; }
+.knr-price-block { margin-top: 24px; }
+.knr-buy-container { margin-top: 40px; }
+.knr-delivery-notice { margin-top: 16px; }
+.knr-accordion { margin-top: 40px; }
+.knr-accordion + .knr-accordion { margin-top: 0; }
+.knr-ritual { margin-top: 40px; }
+
+.knr-breadcrumb {
+  color: var(--knr-gold);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  text-align: left;
+  /* block, not flex: a flex container collapses the spaces around the "/" */
+  display: block;
+}
+
+.knr-badges {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.knr-badge {
+  border: 0.5px solid var(--knr-black);
+  border-radius: 2px;
+  padding: 6px 4px 4px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--knr-black);
+}
+
+.knr-product-title-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.knr-product-title {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: left;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.knr-product-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 79px;
+  flex-shrink: 0;
+}
+
+.knr-product-rating__row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-stars {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 0;
+  align-items: center;
+}
+
+.knr-stars svg,
+.knr-stars img {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+
+.knr-rating-score,
+.knr-rating-count {
+  color: #e2d3bb;
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.knr-scores-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: var(--knr-black);
+  padding-bottom: 0;
+}
+
+.knr-score-badge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.knr-score-badge__name {
+  color: var(--knr-black);
+  font-weight: 700;
+}
+
+.knr-score-badge__value {
+  color: var(--knr-black);
+  font-weight: 400;
+}
+
+.knr-score-divider {
+  width: 2px;
+  height: 2px;
+  background-color: var(--knr-black);
+  flex-shrink: 0;
+}
+
+.knr-short-desc {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+}
+
+/* ---- Variant selector --------------------------------------------------- */
+.knr-variants {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.knr-variants__label {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  align-self: stretch;
+}
+
+.knr-variants__options {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.knr-variant-btn {
+  padding: 0;
+  border: none;
+  border-bottom: 0.8px solid transparent;
+  background: none;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0;
+  transition: border-color var(--knr-transition);
+}
+
+.knr-variant-btn.is-active,
+.knr-variant-btn:hover {
+  border-bottom-color: var(--knr-black);
+  background: none;
+  color: var(--knr-black);
+}
+
+/* ---- Price -------------------------------------------------------------- */
+.knr-price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.knr-price-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.knr-price-current {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-price-compare {
+  color: var(--knr-faint);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
+.knr-price-unit {
+  color: var(--knr-gold);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  padding-bottom: 2px;
+}
+
+/* ---- Add to cart -------------------------------------------------------- */
+.knr-buy-container {
+  align-self: stretch;
+}
+
+.knr-product-form {
+  margin: 0;
+}
+
+.knr-atc-btn {
+  width: 100%;
+  height: 48px;
+  background-color: var(--knr-black);
+  color: var(--knr-white);
+  border: none;
+  border-radius: 2px;
+  padding: 0 24px;
+  font-family: var(--knr-font);
+  font-size: 13px;
+  line-height: 21px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  cursor: pointer;
+  transition: background-color var(--knr-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.knr-atc-btn:hover {
+  background-color: #222222;
+}
+
+.knr-atc-btn.is-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.knr-atc-btn:disabled,
+.knr-atc-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* a variant that can't be bought, but is still selectable so the shopper
+   can see why the buy button is off */
+.knr-variant-btn.is-unavailable {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.knr-variant-btn.is-unavailable.is-active {
+  border-bottom-color: var(--knr-faint);
+}
+
+.knr-delivery-notice {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: center;
+}
+
+.knr-delivery-notice > span {
+  align-self: stretch;
+  /* block, not flex: a flex container collapses the space before <strong> */
+  display: block;
+  text-align: center;
+}
+
+.knr-delivery-notice strong {
+  color: var(--knr-black);
+  font-weight: 400;
+  line-height: 12px;
+}
+
+.knr-delivery-progress {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-delivery-notice__viewport {
+  align-self: stretch;
+  overflow: hidden;
+}
+
+.knr-delivery-notice__track {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.knr-delivery-notice__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  text-align: center;
+}
+
+.knr-delivery-progress__dot {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 1px;
+  padding: 0;
+  border: none;
+  background-color: #dcd5c3;
+  border-radius: 0;
+  cursor: pointer;
+  /* a 1px line is an unusable tap target, so grow it invisibly */
+  position: relative;
+}
+
+.knr-delivery-progress__dot::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;
+  bottom: -10px;
+}
+
+.knr-delivery-progress__dot.is-active {
+  background-color: var(--knr-black);
+}
+
+/* ---- Accordions --------------------------------------------------------- */
+.knr-accordion {
+  border-top: 0.8px solid var(--knr-faint);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.knr-accordion:last-of-type {
+  border-bottom: none;
+}
+
+/* A collapsed panel must not contribute the 8px flex gap */
+.knr-accordion:not(.is-open) {
+  gap: 0;
+}
+
+.knr-accordion__header {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  cursor: pointer;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.knr-accordion__icon {
+  width: 16px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform var(--knr-transition);
+}
+
+.knr-accordion.is-open .knr-accordion__icon {
+  transform: rotate(180deg);
+}
+
+.knr-accordion__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--knr-transition);
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  align-self: stretch;
+}
+
+.knr-accordion.is-open .knr-accordion__content {
+  max-height: 400px;
+  padding-bottom: 0;
+}
+
+.knr-accordion__content p {
+  margin: 0;
+}
+
+/* ---- Related ritual cross-sell ------------------------------------------ */
+.knr-ritual {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  align-self: stretch;
+  padding-top: 0;
+  border-top: none;
+}
+
+.knr-ritual__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+}
+
+.knr-ritual__title {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+.knr-ritual__icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.knr-ritual__items {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  align-self: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* keep the clean Figma edge — the list still scrolls by wheel/drag/arrow */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.knr-ritual__items::-webkit-scrollbar {
+  display: none;
+}
+
+.knr-ritual-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  flex: 0 0 159.33px;
+  width: 159.33px;
+  height: 252.44px;
+  position: relative;
+}
+
+.knr-ritual-card__link {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  color: inherit;
+  text-decoration: none;
+}
+
+.knr-ritual-card__link:hover .knr-ritual-card__img {
+  opacity: 0.85;
+}
+
+.knr-ritual-card__link:hover .knr-ritual-card__title {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.knr-ritual-card__img-wrap {
+  position: relative;
+  align-self: stretch;
+  height: 208px;
+  background-color: var(--knr-cream);
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.knr-ritual-card__img {
+  width: 100%;
+  height: 208px;
+  object-fit: cover;
+  display: block;
+}
+
+/* the add-to-cart forms must not affect layout: the button keeps its place
+   as a flex item / absolutely-positioned child of the card */
+.knr-ritual-card__form,
+.knr-quick-buy-card__form {
+  display: contents;
+}
+
+.knr-ritual-card__quick-add {
+  position: absolute;
+  left: 8px;
+  top: 185px;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--knr-transition);
+  z-index: 2;
+}
+
+.knr-ritual-card__quick-add img,
+.knr-ritual-card__quick-add svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.knr-ritual-card__quick-add:hover {
+  transform: scale(1.1);
+}
+
+.knr-ritual-card__quick-add.is-added {
+  transform: scale(1.15);
+}
+
+.knr-ritual-card__quick-add.is-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.knr-ritual__icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: block;
+  transition: transform var(--knr-transition), opacity var(--knr-transition);
+}
+
+.knr-ritual__icon:hover {
+  transform: translateX(2px);
+}
+
+.knr-ritual__icon:disabled {
+  opacity: 0.25;
+  cursor: default;
+  transform: none;
+}
+
+.knr-ritual__icon img,
+.knr-ritual__icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.knr-ritual-card__info {
+  padding: 0 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  align-self: stretch;
+  height: 25px;
+}
+
+.knr-ritual-card__title {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+}
+
+.knr-ritual-card__price {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 400;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. ENGAGEMENT / MANIFESTO SECTION
+   Figma ref: .ingredient-container — 80px top gutter, then a full-bleed 720px
+   image; small label + 16px rule on the left, 32px manifesto + author on the
+   right (510px column), and a 561x122 quick-buy card overlapping bottom right.
+   -------------------------------------------------------------------------- */
+.knr-engagement {
+  position: relative;
+  padding-inline: 0;
+  padding-block: var(--knr-pt, 80px) var(--knr-pb, 0px);
+  background: none;
+  color: var(--knr-white);
+  display: block;
+  min-height: auto;
+}
+
+/* Same full-bleed trick as the product hero: the container spans the viewport
+   so the photo can bleed edge to edge, and --knr-inset is the space the
+   content width leaves on each side, which the text and the quick-buy card
+   add to their own 40px inset so they stay on the layout grid. */
+.knr-engagement__container {
+  --knr-gutter: max(0px, calc((100% - var(--knr-content-max, 1440px)) / 2));
+  --knr-inset: max(var(--knr-edge, 24px), var(--knr-gutter));
+  position: relative;
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+}
+
+.knr-engagement__media {
+  position: relative;
+  width: 100%;
+  height: 720px;
+  padding-block: 40px;
+  padding-inline: var(--knr-inset);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--knr-cream);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.knr-engagement__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.08) 100%);
+  pointer-events: none;
+}
+
+.knr-engagement__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  max-width: none;
+}
+
+.knr-engagement__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.knr-engagement__title {
+  color: var(--knr-white);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  align-self: stretch;
+  margin: 0;
+}
+
+.knr-engagement__divider {
+  width: 16px;
+  height: 1px;
+  background-color: var(--knr-white);
+  flex-shrink: 0;
+}
+
+.knr-engagement__manifesto {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 510px;
+}
+
+.knr-engagement__quote {
+  color: var(--knr-white);
+  font-family: var(--knr-font);
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: left;
+  width: 510px;
+  opacity: 1;
+}
+
+.knr-engagement__author {
+  color: var(--knr-white);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: left;
+  align-self: stretch;
+}
+
+/* ---- Quick-buy card ------------------------------------------------------ */
+.knr-quick-buy-card {
+  position: absolute;
+  /* tracks the right edge of the content width, not of the viewport */
+  right: var(--knr-inset);
+  /* Figma places it at 750px from the section top; the container starts after
+     the section's 80px top gutter, so 750 - 80. */
+  top: 670px;
+  width: 561px;
+  background-color: var(--knr-white);
+  border: 1px solid var(--knr-cream);
+  border-radius: 0;
+  padding: 8px 24px 8px 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.knr-quick-buy-card__row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.knr-quick-buy-card__thumb {
+  width: 104px;
+  height: 104px;
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+}
+
+.knr-quick-buy-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.knr-quick-buy-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-quick-buy-card__title {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.knr-quick-buy-card__variants {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-quick-buy-card__price {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.knr-quick-buy-card .knr-atc-btn {
+  width: 200px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   5. HOW TO USE
+   Figma ref: .usage-container — 40px top / 120px bottom gutter, 40px gap,
+   three 448px cards with an 8px gutter, square images, copy inset 24px.
+   -------------------------------------------------------------------------- */
+.knr-how-to-use {
+  padding-inline: 0;
+  padding-block: var(--knr-pt, 40px) var(--knr-pb, 120px);
+  background-color: var(--knr-white);
+}
+
+.knr-how-to-use__container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.knr-how-to-use__heading {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-section-heading {
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+/* Heading sizes are per-section in the Figma frame */
+.knr-how-to-use .knr-section-heading {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.knr-how-to-use__grid {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+.knr-step-card__img {
+  align-self: stretch;
+  width: 100%;
+  height: 448px;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  background-color: rgba(220, 213, 195, 0.16);
+}
+
+.knr-step-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-step-card__number {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.knr-step-card__link-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-step-card__link {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  text-transform: none;
+  text-decoration: none;
+}
+
+.knr-step-card__desc {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  align-self: stretch;
+}
+
+/* --------------------------------------------------------------------------
+   6. BEFORE / AFTER & TESTIMONIALS
+   Figma ref: .before-after-container — 80px padding on #f9f8f5, 40px gaps,
+   640px comparison band with 14px labels inset 40px, a 2px white split and a
+   48px round grip; below it a centred 32px testimonial and 48px chevrons.
+   -------------------------------------------------------------------------- */
+.knr-before-after {
+  padding: 0;
+  background-color: var(--knr-cream);
+}
+
+.knr-before-after__container {
+  padding-block: var(--knr-pt, 80px) var(--knr-pb, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.knr-before-after__header {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  max-width: none;
+}
+
+.knr-before-after .knr-section-heading {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: center;
+}
+
+.knr-before-after__desc {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: center;
+  width: 540px;
+  max-width: 100%;
+}
+
+/* ---- Comparison band ----------------------------------------------------- */
+.knr-ba-slider {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 640px;
+  overflow: hidden;
+  border-radius: 0;
+  user-select: none;
+  cursor: ew-resize;
+  background-color: var(--knr-white);
+}
+
+.knr-ba-slider__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.knr-ba-slider__before-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.knr-ba-slider__before-wrap .knr-ba-slider__img {
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+}
+
+.knr-ba-slider__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background-color: var(--knr-white);
+  z-index: 3;
+  transform: translateX(-50%);
+}
+
+.knr-ba-slider__handle-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  background-color: var(--knr-white);
+  border-radius: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.knr-ba-slider__handle-btn img,
+.knr-ba-slider__handle-btn svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+
+.knr-ba-slider__label {
+  position: absolute;
+  top: 40px;
+  bottom: auto;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: uppercase;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.knr-ba-slider__label--before {
+  left: 40px;
+  z-index: 4;
+}
+
+.knr-ba-slider__label--after {
+  right: 40px;
+}
+
+/* ---- Testimonial --------------------------------------------------------- */
+.knr-ba-testimonial {
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.knr-ba-testimonial__viewport {
+  width: 970px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.knr-ba-testimonial__track {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.knr-ba-testimonial__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.knr-ba-testimonial__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-ba-nav-arrows[hidden] {
+  display: none;
+}
+
+.knr-ba-testimonial__rating {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-ba-testimonial__author {
+  color: var(--knr-gold);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.knr-ba-testimonial__text {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: center;
+  align-self: stretch;
+}
+
+.knr-ba-nav-arrows {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-nav-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--knr-transition);
+}
+
+.knr-nav-btn:hover {
+  opacity: 0.6;
+}
+
+.knr-nav-btn img,
+.knr-nav-btn svg {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   7. FAQS
+   Figma ref: .fa-qs-container — 120px/40px padding, 80px gap, centred 40px
+   heading, and a 720px list of items separated by 1px rules.
+   -------------------------------------------------------------------------- */
+.knr-faqs {
+  padding: 0;
+  background-color: var(--knr-white);
+}
+
+.knr-faqs__container {
+  padding-block: var(--knr-pt, 120px) var(--knr-pb, 120px);
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.knr-faqs__header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-faqs .knr-section-heading {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: center;
+  align-self: stretch;
+}
+
+.knr-faqs__list {
+  width: 720px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-faq-item {
+  border-top: 1px solid var(--knr-faint);
+  border-bottom: none;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+}
+
+/* A collapsed panel must not contribute the 16px flex gap */
+.knr-faq-item:not(.is-open) {
+  gap: 0;
+}
+
+.knr-faq-item__question {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  cursor: pointer;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+}
+
+.knr-faq-item__icon {
+  width: 16px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform var(--knr-transition);
+}
+
+.knr-faq-item.is-open .knr-faq-item__icon {
+  transform: rotate(180deg);
+}
+
+.knr-faq-item__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--knr-transition);
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  align-self: stretch;
+}
+
+.knr-faq-item.is-open .knr-faq-item__answer {
+  max-height: 400px;
+  padding-bottom: 0;
+}
+
+.knr-faq-item__answer p {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   8. REVIEWS SECTION
+   Figma ref: .newsletter-container — 80px side / 120px bottom padding, 40px
+   gaps, a 720px summary + list column, 250x48 actions, 104x12 rating bars.
+   -------------------------------------------------------------------------- */
+.knr-reviews {
+  padding: 0;
+  background-color: var(--knr-white);
+}
+
+.knr-reviews__container {
+  padding-block: var(--knr-pt, 0px) var(--knr-pb, 120px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.knr-reviews__header {
+  padding: 0 0 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-reviews .knr-section-heading {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: center;
+  align-self: stretch;
+}
+
+/* ---- Summary ------------------------------------------------------------- */
+.knr-reviews__summary {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 720px;
+  max-width: 100%;
+}
+
+.knr-reviews__score-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.knr-reviews__score-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-reviews__big-score,
+.knr-reviews__total-count {
+  color: var(--knr-gold);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.knr-reviews__bars {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.knr-review-bar-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-review-bar-track {
+  position: relative;
+  width: 104px;
+  height: 12px;
+  background-color: var(--knr-cream);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.knr-review-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 12px;
+  background-color: #dcd5c3;
+}
+
+.knr-review-bar-row__count {
+  color: var(--knr-gold);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  width: 13px;
+  flex-shrink: 0;
+}
+
+.knr-reviews__actions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.knr-reviews__btn {
+  width: 250px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 2px;
+  font-family: var(--knr-font);
+  font-size: 13px;
+  line-height: 21px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: opacity var(--knr-transition);
+}
+
+.knr-reviews__btn:hover {
+  opacity: 0.85;
+}
+
+.knr-reviews__btn--dark {
+  background-color: var(--knr-black);
+  color: var(--knr-white);
+  border: none;
+}
+
+.knr-reviews__btn--light {
+  background: none;
+  color: var(--knr-black);
+  border: 1px solid var(--knr-black);
+}
+
+/* ---- Review list --------------------------------------------------------- */
+.knr-reviews__list {
+  width: 720px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-reviews__filter {
+  align-self: stretch;
+  border: none;
+  border-bottom: 1px solid var(--knr-faint);
+  background: none;
+  padding: 0 0 16px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-reviews__filter img,
+.knr-reviews__filter svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.knr-review-card {
+  border-bottom: 1px solid var(--knr-faint);
+  padding: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-review-card__header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  align-self: stretch;
+}
+
+.knr-review-card__date {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-review-card__author-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-review-card__author {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-review-card__verified {
+  border: 0.5px solid var(--knr-black);
+  border-radius: 2px;
+  padding: 5px 4px 4px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 8px;
+  line-height: 100%;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.knr-review-card__content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-review-card__subtitle,
+.knr-review-card__content {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  width: 640px;
+  max-width: 100%;
+}
+
+.knr-reviews__more-wrap {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+}
+
+.knr-reviews__more-btn {
+  width: 250px;
+  height: 48px;
+  padding: 0 24px;
+  border: 1px solid var(--knr-black);
+  border-radius: 2px;
+  background: none;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 13px;
+  line-height: 21px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--knr-transition);
+}
+
+.knr-reviews__more-btn:hover {
+  opacity: 0.7;
+}
+
+/* --------------------------------------------------------------------------
+   9. LATEST NEWS
+   Figma ref: .news-section — 40px gap, header row inset 40px with an
+   underlined link, then four 334px cards with an 8px gutter.
+   -------------------------------------------------------------------------- */
+.knr-latest-news {
+  padding: 0;
+  background-color: var(--knr-white);
+}
+
+.knr-latest-news__container {
+  padding-block: var(--knr-pt, 0px) var(--knr-pb, 0px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-latest-news__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-self: stretch;
+}
+
+.knr-latest-news .knr-section-heading {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.knr-latest-news__view-all {
+  border-bottom: 0.8px solid var(--knr-black);
+  padding: 0 0 2px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  text-decoration: none;
+}
+
+.knr-latest-news__grid {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  align-self: stretch;
+  overflow: hidden;
+}
+
+.knr-news-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.knr-news-card__img {
+  align-self: stretch;
+  width: 100%;
+  height: 334px;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  background-color: var(--knr-cream);
+}
+
+.knr-news-card__body {
+  padding: 0 15px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-news-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-news-card__category {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  text-align: left;
+  align-self: stretch;
+}
+
+.knr-news-card__divider {
+  width: 16px;
+  height: 0.8px;
+  background-color: var(--knr-gold);
+  flex-shrink: 0;
+}
+
+.knr-news-card__title {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  align-self: stretch;
+}
+
+.knr-news-card__excerpt {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  align-self: stretch;
+}
+
+/* --------------------------------------------------------------------------
+   10. NEWSLETTER
+   Figma ref: .newsletter-container2 — 120px/40px padding, a 640x540 image
+   beside a 720px copy column with a 40px heading and an inline subscribe row.
+   -------------------------------------------------------------------------- */
+.knr-newsletter {
+  position: relative;
+  display: block;
+  min-height: auto;
+  padding: 0;
+  background-color: var(--knr-white);
+  background-image: none;
+  color: var(--knr-black);
+  text-align: left;
+}
+
+.knr-newsletter__container {
+  padding-block: var(--knr-pt, 120px) var(--knr-pb, 120px);
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.knr-newsletter__image {
+  flex: 0 0 47.0588%;
+  min-width: 0;
+  height: 540px;
+  object-fit: cover;
+  display: block;
+  background-color: var(--knr-cream);
+}
+
+.knr-newsletter__details {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+  padding: 0;
+  display: flex;
+  padding-left: 40px;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.knr-newsletter__content {
+  position: relative;
+  z-index: 2;
+  align-self: stretch;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-newsletter__title {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  text-align: left;
+  align-self: stretch;
+}
+
+.knr-newsletter__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-newsletter__form {
+  margin: 0;
+  align-self: stretch;
+  width: auto;
+  max-width: none;
+  height: 48px;
+  border: 0.8px solid #dcd5c3;
+  border-radius: 2px;
+  background: none;
+  padding: 0 0 0 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.knr-newsletter__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  outline: none;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-newsletter__input::placeholder {
+  color: var(--knr-black);
+  opacity: 1;
+}
+
+.knr-newsletter__submit {
+  width: 160px;
+  flex-shrink: 0;
+  align-self: stretch;
+  padding: 16px 24px;
+  background-color: var(--knr-black);
+  color: var(--knr-white);
+  border: none;
+  border-radius: 0 2px 2px 0;
+  font-family: var(--knr-font);
+  font-size: 13px;
+  line-height: 21px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.knr-newsletter__disclaimer {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: left;
+  opacity: 1;
+  align-self: stretch;
+}
+
+/* --------------------------------------------------------------------------
+   11. REASSURANCE BADGES
+   Figma ref: .reinsurance-container — #dcd5c3 band, 80px/40px padding,
+   four centred columns with an 80px gutter.
+   -------------------------------------------------------------------------- */
+.knr-reassurance {
+  padding: 0;
+  background-color: #dcd5c3;
+  border-top: none;
+  border-bottom: 0.8px solid #dcd5c3;
+}
+
+.knr-reassurance__container {
+  padding-block: var(--knr-pt, 80px) var(--knr-pb, 80px);
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.knr-reassurance-item {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.knr-reassurance-item__title {
+  margin: 0;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  align-self: stretch;
+}
+
+.knr-reassurance-item__text {
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-align: center;
+  align-self: stretch;
+}
+
+/* --------------------------------------------------------------------------
+   12. FOOTER
+   Figma ref: .structure-site-container (three 280px link columns + a 400px
+   about column) then .logo-container (full-bleed wordmark + 40px bottom bar).
+   -------------------------------------------------------------------------- */
+.knr-footer {
+  background-color: var(--knr-cream);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.knr-footer__container {
+  padding-block: var(--knr-pt, 80px) var(--knr-pb, 40px);
+  position: relative;
+  z-index: 2;
+}
+
+.knr-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 400px;
+  gap: 40px;
+  align-items: start;
+}
+
+.knr-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+.knr-footer__col-title {
+  margin: 0;
+  padding: 0 0 24px 0;
+  align-self: stretch;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  text-align: left;
+}
+
+.knr-footer__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  align-self: stretch;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.knr-footer__menu-item {
+  align-self: stretch;
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.knr-footer__menu-item a {
+  color: var(--knr-black);
+  text-decoration: none;
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  transition: opacity var(--knr-transition);
+}
+
+.knr-footer__menu-item a:hover {
+  opacity: 0.6;
+}
+
+/* ---- About / certification column --------------------------------------- */
+.knr-footer__col--about {
+  gap: 24px;
+}
+
+.knr-footer__col--about .knr-footer__col-title {
+  padding: 0;
+}
+
+.knr-footer__about-text {
+  margin: 0;
+  align-self: stretch;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-footer__cert {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.knr-footer__cert-logo {
+  width: 47px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+}
+
+.knr-footer__cert-info {
+  border-bottom: 1px solid #dcd5c3;
+  padding: 0 0 16px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.knr-footer__cert-text {
+  flex: 1;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-footer__cert-btn {
+  border-bottom: 0.8px solid var(--knr-black);
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  text-transform: none;
+  text-decoration: none;
+}
+
+/* ---- Wordmark + bottom bar ---------------------------------------------- */
+.knr-footer__logo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.knr-footer__watermark {
+  width: 100%;
+  align-self: stretch;
+  margin: 0;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.knr-footer__watermark img,
+.knr-footer__watermark svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.knr-footer__bottom {
+  border-top: 1px solid #dcd5c3;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  overflow: hidden;
+  color: var(--knr-black);
+  font-family: var(--knr-font);
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.knr-footer__selectors {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.knr-footer__selector-item {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Explicit size: the asset's viewBox is 16x20, so squashing it into a square
+   distorts the chevron, and without a rule a global img style can inflate it. */
+.knr-footer__selector-item img,
+.knr-footer__selector-item svg {
+  width: 16px;
+  height: 20px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
+
+.knr-footer__copyright {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.knr-footer__socials {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.knr-footer__social-icon img,
+.knr-footer__social-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  opacity: 1;
+  transition: opacity var(--knr-transition);
+}
+
+.knr-footer__social-icon:hover img {
+  opacity: 0.6;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE (TABLET & MOBILE 390px)
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  .knr-main-product__container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .knr-gallery {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .knr-product-info {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0;
+    width: 100%;
+    padding: 30px 24px 40px 24px;
+    overflow: visible;
+  }
+
+  .knr-gallery__secondary-images {
+    width: 100%;
+    margin-inline-start: 0;
+    height: auto;
+  }
+
+  .knr-gallery__secondary-img {
+    height: 380px;
+  }
+
+  .knr-gallery__main {
+    height: 520px;
+  }
+
+  .knr-step-card__img {
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .knr-before-after__container {
+    padding-block: 60px;
+    padding-inline: max(var(--knr-edge, 24px), calc((100% - var(--knr-content-max, 100%)) / 2));
+  }
+
+  .knr-ba-slider {
+    height: 520px;
+  }
+
+  .knr-latest-news__grid {
+    flex-wrap: wrap;
+  }
+
+  .knr-news-card {
+    flex: 1 1 calc(50% - 4px);
+  }
+
+  .knr-newsletter__container {
+    padding-block: 80px;
+    padding-inline: max(var(--knr-edge, 24px), calc((100% - var(--knr-content-max, 100%)) / 2));
+  }
+
+  .knr-reassurance__container {
+    gap: 40px;
+  }
+
+  .knr-reviews__summary {
+    grid-template-columns: 1fr;
+  }
+
+  .knr-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* ==========================================================================
+     MOBILE (390px frame) — geometry taken from mobile-design-html
+     ========================================================================== */
+
+  /* ---- 1. Announcement bar: sits in flow above the hero, not over it ------ */
+  .knr-announcement-bar {
+    position: relative;
+    gap: 3px;
+    padding-inline: var(--knr-edge, 24px);
+    padding-block: var(--knr-pt-m, var(--knr-pt, 0px)) var(--knr-pb-m, var(--knr-pb, 0px));
+  }
+
+  /* ---- 2. Header ---------------------------------------------------------- */
+  .knr-header {
+    top: 32px;
+    height: 56px;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 0px)) var(--knr-pb-m, var(--knr-pb, 0px));
+    padding-inline: 24px;
+  }
+
+  .knr-header__logo img,
+  .knr-header__logo svg {
+    width: 130px;
+    height: 14px;
+  }
+
+  .knr-header__actions {
+    gap: 16px;
+  }
+
+  /* the account icon is not part of the mobile frame */
+  .knr-header__icon--account {
+    display: none;
+  }
+
+  .knr-header__burger {
+    display: flex;
+  }
+
+  /* Menu slides in from the right as a drawer */
+  .knr-header__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    bottom: 0;
+    height: 100%;
+    width: 82vw;
+    max-width: 320px;
+    padding: 28px 24px 32px 24px;
+    gap: 24px;
+    background-color: var(--knr-white);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    z-index: 200;
+  }
+
+  .knr-header__nav.is-mobile-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  /* brand mark at the top of the drawer */
+  .knr-header__nav-logo {
+    display: block;
+    flex-shrink: 0;
+    margin-bottom: 8px;
+  }
+
+  .knr-header__nav-logo img,
+  .knr-header__nav-logo svg {
+    width: 130px;
+    height: 14px;
+    display: block;
+    /* the mark ships white for the transparent header; flip it on the panel */
+    filter: invert(1);
+  }
+
+  /* The header creates its own stacking context (z-index 40), so the drawer
+     inside it can't out-stack a backdrop attached to <body>. Lift the whole
+     header above the backdrop while the drawer is open. */
+  .knr-header.is-nav-open {
+    z-index: 201;
+  }
+
+  .knr-header__nav .knr-header__link {
+    color: var(--knr-black);
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -0.02em;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  /* burger turns into a close cross while the drawer is open */
+  .knr-header__burger.is-open span:first-child {
+    transform: translateY(2px) rotate(45deg);
+  }
+
+  .knr-header__burger.is-open span:last-child {
+    transform: translateY(-2px) rotate(-45deg);
+  }
+
+  .knr-header__nav.is-mobile-open ~ .knr-header__actions .knr-header__burger span {
+    background-color: var(--knr-black);
+  }
+
+  /* ---- 3. Main product ---------------------------------------------------- */
+  .knr-main-product__container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Gallery becomes a full-bleed swipeable carousel */
+  .knr-gallery {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .knr-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .knr-gallery__main {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 550px;
+    scroll-snap-align: start;
+  }
+
+  /* fill the card width, keeping the product centred in the crop */
+  .knr-gallery__main-img,
+  .knr-gallery__secondary-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    background-color: var(--knr-cream);
+  }
+
+  /* carousel arrows, per the mobile frame (16px glyph, 16px inset) */
+  .knr-gallery__arrow {
+    display: flex;
+    position: absolute;
+    top: 204px;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+  }
+
+  .knr-gallery__arrow[hidden] {
+    display: none;
+  }
+
+  .knr-gallery__arrow img,
+  .knr-gallery__arrow svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  .knr-gallery__arrow--prev {
+    left: 16px;
+    transform: rotate(180deg);
+  }
+
+  .knr-gallery__arrow--next {
+    right: 16px;
+  }
+
+  /* let the secondary images join the carousel as siblings */
+  .knr-gallery__secondary-images {
+    display: contents;
+  }
+
+  .knr-gallery__secondary-img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 550px;
+    scroll-snap-align: start;
+  }
+
+  /* the hero is already slide 1, so skip its duplicate in the list */
+  .knr-gallery__secondary-img:first-child {
+    display: none;
+  }
+
+  .knr-gallery__dots {
+    display: none;
+  }
+
+  /* carousel on mobile: selection is a desktop-only behaviour */
+  [data-gallery-select] {
+    cursor: default;
+  }
+
+  [data-gallery-select].is-selected {
+    outline: none;
+  }
+
+  /* Benefit badges sit centred over the hero, just under the header */
+  .knr-badges {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    padding: 16px;
+    gap: 4px;
+    justify-content: center;
+    z-index: 3;
+  }
+
+  /* The white panel overlaps the bottom of the hero */
+  .knr-product-info {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    position: static;
+    z-index: 2;
+    margin-top: 424px;
+    width: 100%;
+    max-width: 100%;
+    background: none;
+    padding: 0 16px 24px 16px;
+    gap: 10px;
+    align-items: center;
+    overflow: visible;
+  }
+
+  /* the white card itself */
+  .knr-product-info__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-self: stretch;
+    background-color: var(--knr-white);
+    padding: 24px 16px;
+  }
+
+  .knr-product-info__inner > * {
+    width: 100%;
+  }
+
+  /* gallery position indicator */
+  .knr-gallery-progress {
+    display: block;
+    position: relative;
+    width: 97.5px;
+    height: 0.8px;
+    background-color: var(--knr-cream);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .knr-gallery-progress__fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 25px;
+    background-color: var(--knr-black);
+    transition: transform 0.2s ease-out;
+  }
+
+  /* --- panel order + rhythm (mobile frame) --- */
+  .knr-breadcrumb {
+    display: none;
+  }
+
+  .knr-product-title-row {
+    order: 1;
+    width: calc(100% - 82px);
+    margin-top: 0;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .knr-product-title {
+    font-size: 14px;
+    line-height: 16.8px;
+    letter-spacing: 0.02em;
+  }
+
+  .knr-product-rating {
+    display: none;
+  }
+
+  .knr-price-block {
+    order: 2;
+    width: 82px;
+    margin-top: 0;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .knr-price-row {
+    justify-content: flex-end;
+  }
+
+  .knr-price-current {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .knr-price-compare {
+    font-size: 10px;
+    line-height: 12px;
+    color: var(--knr-black);
+  }
+
+  .knr-price-unit {
+    font-size: 8px;
+    line-height: 16px;
+    padding-bottom: 0;
+  }
+
+  /* the rating moves onto its own row under the title */
+  .knr-scores-row  { order: 4; margin-top: 16px; }
+  .knr-short-desc  { order: 5; margin-top: 16px; }
+  .knr-variants    { order: 6; margin-top: 24px; gap: 8px; }
+  .knr-buy-container   { order: 7; margin-top: 24px; }
+  .knr-delivery-notice { order: 8; margin-top: 16px; }
+  .knr-accordion   { order: 9; margin-top: 24px; }
+  .knr-ritual      { order: 10; margin-top: 24px; }
+
+  .knr-accordion + .knr-accordion {
+    margin-top: 0;
+  }
+
+  .knr-variants__options {
+    gap: 8px;
+    align-self: stretch;
+  }
+
+  .knr-variant-btn {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .knr-ritual__items {
+    gap: 8px;
+  }
+
+  .knr-ritual-card {
+    flex: 0 0 159.33px;
+    width: 159.33px;
+    height: 252.44px;
+  }
+
+  .knr-ritual-card__img-wrap,
+  .knr-ritual-card__img {
+    height: 208px;
+  }
+
+  .knr-ritual-card__quick-add {
+    top: 185px;
+  }
+
+  /* ---- 4. Engagement ------------------------------------------------------ */
+  .knr-engagement {
+    padding-inline: 0;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 0px)) var(--knr-pb-m, var(--knr-pb, 0px));
+  }
+
+  /* Figma ref: .image — auto height driven by a 360px gap between the label
+     and the quote, which is the window the photo shows through. */
+  .knr-engagement__media {
+    height: auto;
+    min-height: 0;
+    padding-block: 80px;
+    padding-inline: var(--knr-inset);
+    gap: 360px;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  /* let the two blocks become direct children so the 360px gap applies */
+  .knr-engagement__content {
+    display: contents;
+  }
+
+  .knr-engagement__intro {
+    flex: 0 0 auto;
+    align-self: stretch;
+  }
+
+  .knr-engagement__manifesto {
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .knr-engagement__quote {
+    width: 100%;
+    font-size: 22px;
+    line-height: 24px;
+  }
+
+  /* the quick-buy card is desktop-only */
+  .knr-quick-buy-card {
+    display: none;
+  }
+
+  /* ---- 5. How to use ------------------------------------------------------ */
+  .knr-how-to-use {
+    padding-inline: 0;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 40px)) var(--knr-pb-m, var(--knr-pb, 40px));
+  }
+
+  .knr-how-to-use__container {
+    gap: 40px;
+  }
+
+  .knr-how-to-use__heading {
+  }
+
+  .knr-how-to-use .knr-section-heading {
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+    align-self: stretch;
+  }
+
+  .knr-how-to-use__grid {
+    scroll-padding-left: 24px;
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .knr-how-to-use__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .knr-step-card {
+    flex: 0 0 255px;
+    width: 255px;
+    scroll-snap-align: start;
+  }
+
+  .knr-step-card__img {
+    height: 255px;
+    aspect-ratio: auto;
+  }
+
+  .knr-step-card__meta {
+    padding: 0;
+  }
+
+  .knr-carousel-progress {
+    display: block;
+    position: relative;
+    width: 97.5px;
+    height: 0.8px;
+    margin: 0 auto;
+    background-color: var(--knr-cream);
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .knr-carousel-progress__fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 25px;
+    background-color: var(--knr-black);
+    transition: transform 0.2s ease-out;
+  }
+
+  /* ---- 6. Before / after --------------------------------------------------- */
+  .knr-before-after__container {
+    padding-inline: 24px;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 64px)) var(--knr-pb-m, var(--knr-pb, 40px));
+    gap: 40px;
+  }
+
+  .knr-before-after__header {
+    padding: 0;
+    gap: 16px;
+  }
+
+  .knr-before-after .knr-section-heading {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .knr-before-after__desc {
+    width: 100%;
+  }
+
+  .knr-ba-slider {
+    height: 192px;
+  }
+
+  .knr-ba-slider__label {
+    top: 24px;
+  }
+
+  .knr-ba-slider__label--before { left: 24px; }
+  .knr-ba-slider__label--after { right: 24px; }
+
+  .knr-ba-testimonial {
+    padding-top: 0;
+    gap: 40px;
+  }
+
+  .knr-ba-testimonial__viewport {
+    width: 100%;
+  }
+
+  .knr-ba-testimonial__content {
+    gap: 40px;
+  }
+
+  .knr-ba-testimonial__text {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  /* ---- 7. FAQs ------------------------------------------------------------- */
+  .knr-faqs__container {
+    padding-inline: 24px;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 40px)) var(--knr-pb-m, var(--knr-pb, 40px));
+    gap: 40px;
+  }
+
+  .knr-faqs .knr-section-heading {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .knr-faqs__list {
+    width: 100%;
+  }
+
+  .knr-faq-item__question {
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+  }
+
+  /* ---- 8. Reviews ---------------------------------------------------------- */
+  .knr-reviews__container {
+    padding-inline: 24px;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 40px)) var(--knr-pb-m, var(--knr-pb, 64px));
+    gap: 40px;
+  }
+
+  .knr-reviews__header {
+    padding: 0;
+  }
+
+  .knr-reviews .knr-section-heading {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .knr-reviews__summary {
+    width: 100%;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .knr-reviews__score-wrap,
+  .knr-reviews__bars,
+  .knr-reviews__actions {
+    flex: 0 0 auto;
+    align-self: stretch;
+    align-items: flex-start;
+  }
+
+  .knr-reviews__btn {
+    width: 100%;
+  }
+
+  .knr-reviews__list {
+    width: 100%;
+  }
+
+  .knr-reviews__more-wrap {
+    padding: 0;
+  }
+
+  .knr-reviews__more-btn {
+    width: 100%;
+  }
+
+  .knr-review-card__subtitle,
+  .knr-review-card__content {
+    width: 100%;
+  }
+
+  /* ---- 9. Latest news ------------------------------------------------------ */
+  .knr-latest-news__container {
+    gap: 40px;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 0px)) var(--knr-pb-m, var(--knr-pb, 0px));
+  }
+
+  .knr-latest-news__header {
+    justify-content: center;
+  }
+
+  .knr-latest-news .knr-section-heading {
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+  }
+
+  /* the "see all" link moves below the cards on mobile */
+  .knr-latest-news__view-all {
+    order: 2;
+    align-self: center;
+    margin: 0 auto;
+  }
+
+  .knr-latest-news__grid {
+    padding: 0;
+    scroll-padding-left: 0;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .knr-latest-news__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .knr-news-card {
+    flex: 0 0 255px;
+    width: 255px;
+    align-self: flex-start;
+    scroll-snap-align: start;
+  }
+
+  .knr-news-card__img {
+    height: 255px;
+    aspect-ratio: auto;
+  }
+
+  .knr-news-card__body {
+    padding: 0;
+  }
+
+  /* ---- 10. Newsletter ------------------------------------------------------ */
+  .knr-newsletter__container {
+    flex-direction: column;
+    padding-inline: 24px;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 0px)) var(--knr-pb-m, var(--knr-pb, 64px));
+    gap: 24px;
+  }
+
+  .knr-newsletter__image {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 232px;
+  }
+
+  .knr-newsletter__details {
+    flex: 0 0 auto;
+    align-self: stretch;
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .knr-newsletter__content {
+    gap: 40px;
+  }
+
+  .knr-newsletter__title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .knr-newsletter__form {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: auto;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    gap: 16px;
+    overflow: visible;
+  }
+
+  .knr-newsletter__input {
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: 100%;
+    height: 48px;
+    padding: 0 24px;
+    border: 0.8px solid #dcd5c3;
+    border-radius: 2px;
+    background: none;
+  }
+
+  .knr-newsletter__submit {
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: 100%;
+    height: 48px;
+    padding: 0 24px;
+    border-radius: 2px;
+  }
+
+  /* ---- 11. Reassurance ----------------------------------------------------- */
+  .knr-reassurance__container {
+    flex-direction: row;
+    gap: 40px;
+    padding-inline: var(--knr-edge, 24px);
+    padding-block: var(--knr-pt-m, var(--knr-pt, 80px)) var(--knr-pb-m, var(--knr-pb, 80px));
+    scroll-padding-left: var(--knr-edge, 24px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .knr-reassurance__container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .knr-reassurance-item {
+    flex: 0 0 310px;
+    width: 310px;
+    gap: 24px;
+    scroll-snap-align: center;
+  }
+
+  /* ---- 12. Footer ---------------------------------------------------------- */
+  .knr-footer__container {
+    padding-inline: 24px;
+    padding-block: var(--knr-pt-m, var(--knr-pt, 64px)) var(--knr-pb-m, var(--knr-pb, 0px));
+  }
+
+  .knr-footer__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  /* link columns collapse into accordions */
+  .knr-footer__col:not(.knr-footer__col--about) {
+    border-top: 1px solid var(--knr-faint);
+    padding: 20px 0;
+  }
+
+  .knr-footer__col:not(.knr-footer__col--about):last-of-type {
+    border-bottom: 1px solid var(--knr-faint);
+  }
+
+  .knr-footer__col-title {
+    padding: 0;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .knr-footer__col--about .knr-footer__col-title {
+    cursor: default;
+  }
+
+  .knr-footer__col-toggle {
+    display: block;
+    width: 16px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform var(--knr-transition);
+  }
+
+  .knr-footer__col.is-open .knr-footer__col-toggle {
+    transform: rotate(180deg);
+  }
+
+  .knr-footer__menu {
+    max-height: 0;
+    overflow: hidden;
+    gap: 0;
+    transition: max-height var(--knr-transition);
+  }
+
+  .knr-footer__col.is-open .knr-footer__menu {
+    max-height: 400px;
+    gap: 16px;
+    padding-top: 16px;
+  }
+
+  .knr-footer__col--about {
+    padding-top: 32px;
+    gap: 24px;
+  }
+
+  .knr-footer__logo-container {
+    gap: 40px;
+  }
+
+  .knr-footer__bottom {
+    padding: 24px 0;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .knr-footer__selectors,
+  .knr-footer__socials {
+    flex: 0 0 auto;
+    justify-content: center;
+  }
+}

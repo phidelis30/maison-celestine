@@ -1,0 +1,144 @@
+{%- comment -%}
+  KNR FAQ Accordion Section
+{%- endcomment -%}
+
+<section class="knr-faqs knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 120 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 120 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 40 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 40 }}px;" id="faqs">
+  <div class="knr-faqs__container">
+    <div class="knr-faqs__header">
+      <h2 class="knr-section-heading">{{ section.settings.title | default: "Questions fréquentes" }}</h2>
+    </div>
+
+    <div class="knr-faqs__list">
+      {%- for block in section.blocks -%}
+        <div class="knr-faq-item {% if forloop.first %}is-open{% endif %}" {{ block.shopify_attributes }}>
+          <div class="knr-faq-item__question">
+            <span>{{ block.settings.question }}</span>
+            <img src="{{ 'chevron-icon3.svg' | asset_url }}" alt="" class="knr-faq-item__icon" width="16" height="20">
+          </div>
+          <div class="knr-faq-item__answer">
+            {{ block.settings.answer }}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KNR FAQs",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Questions fréquentes"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question / Réponse",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Comment utiliser ?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Réponse",
+          "default": "Appliquez 3 à 5 gouttes le soir sur visage et cou préalablement nettoyés. Massez délicatement en mouvements ascendants jusqu'à absorption complète. Peut s'utiliser seul ou sous votre crème habituelle."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR FAQs",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Comment utiliser ?",
+            "answer": "Appliquez 3 à 5 gouttes le soir sur visage et cou préalablement nettoyés. Massez délicatement en mouvements ascendants jusqu'à absorption complète. Peut s'utiliser seul ou sous votre crème habituelle."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Quand voir les effets ?",
+            "answer": "Des résultats visibles sont constatés dès 4 semaines d'utilisation quotidienne : peau plus ferme, lissée et éclat retrouvé."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Convient-il à tous ?",
+            "answer": "Convient à tous les types de peaux, y compris les peaux sensibles, grâce à sa formulation douce et testée dermatologiquement."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Est-il naturel ?",
+            "answer": "Formulé avec 97 % d'ingrédients d'origine naturelle et certifié COSMOS ORGANIC par ECOCERT Greenlife."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Peut-on l'associer ?",
+            "answer": "Parfaitement compatible avec votre rituel existant, en complément d'une crème hydratante ou d'une protection solaire en journée."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,128 @@
+{%- comment -%}
+  KNR Newsletter Section
+{%- endcomment -%}
+
+{%- assign nl_img = section.settings.bg_image_url | default: 'https://cdn.shopify.com/s/files/1/0746/5520/3505/files/reinsurance-image0.png?v=1790000607' -%}
+{%- if section.settings.bg_image != blank -%}
+  {%- assign nl_img = section.settings.bg_image | image_url: width: 1400 -%}
+{%- endif -%}
+
+<section class="knr-newsletter knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 120 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 120 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 0 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 64 }}px;">
+  <div class="knr-newsletter__container">
+    <img src="{{ nl_img }}" alt="" class="knr-newsletter__image" width="640" height="540" loading="lazy">
+
+    <div class="knr-newsletter__details">
+      <div class="knr-newsletter__content">
+        <h2 class="knr-newsletter__title">
+          {{ section.settings.title | default: "L'alliance de la science botanique et du luxe naturel pour une peau visiblement rajeunie en 4 semaines." }}
+        </h2>
+
+        <div class="knr-newsletter__info">
+          {%- form 'customer', class: 'knr-newsletter__form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input
+              type="email"
+              name="contact[email]"
+              class="knr-newsletter__input"
+              placeholder="{{ section.settings.placeholder | default: 'E-mail' }}"
+              aria-label="{{ section.settings.placeholder | default: 'E-mail' }}"
+              required
+            >
+            <button type="submit" class="knr-newsletter__submit">
+              {{ section.settings.button_text | default: "S'inscrire" }}
+            </button>
+          {%- endform -%}
+
+          <div class="knr-newsletter__disclaimer">
+            {{ section.settings.disclaimer | default: "Formule brevetée, testée dermatologiquement, 97 % d'ingrédients d'origine naturelle." }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KNR Newsletter",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Titre",
+      "default": "L'alliance de la science botanique et du luxe naturel pour une peau visiblement rajeunie en 4 semaines."
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Image de fond"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder du champ",
+      "default": "E-mail"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texte du bouton",
+      "default": "S'inscrire"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Texte de réassurance",
+      "default": "Formule brevetée, testée dermatologiquement, 97 % d'ingrédients d'origine naturelle."
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR Newsletter"
+    }
+  ]
+}
+{% endschema %}

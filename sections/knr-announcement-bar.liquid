@@ -1,0 +1,103 @@
+{%- comment -%}
+  KNR Announcement Bar Section
+{%- endcomment -%}
+
+{%- if section.settings.show_announcement -%}
+  <div class="knr-announcement-bar knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 0 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 0 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 0 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 0 }}px; background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+    <span>{{ section.settings.message }}</span>
+    {%- if section.settings.link_text != blank and section.settings.link_url != blank -%}
+      <a href="{{ section.settings.link_url }}" style="color: {{ section.settings.text_color }};">{{ section.settings.link_text }}</a>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "KNR Bandeau d'annonce",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Afficher le bandeau",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Message",
+      "default": "Livraison estimée sous 48h"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Texte du lien",
+      "default": "consectetur."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Lien"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Couleur de fond",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Couleur du texte",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR Bandeau d'annonce"
+    }
+  ]
+}
+{% endschema %}

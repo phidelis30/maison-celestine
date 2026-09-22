@@ -1,0 +1,147 @@
+{%- comment -%}
+  KNR How To Use Section
+{%- endcomment -%}
+
+<section class="knr-how-to-use knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 40 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 120 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 40 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 40 }}px;">
+  <div class="knr-how-to-use__container">
+    <div class="knr-how-to-use__heading">
+      <h2 class="knr-section-heading">{{ section.settings.title | default: "How to use" }}</h2>
+    </div>
+
+    <div class="knr-how-to-use__grid">
+      {%- for block in section.blocks -%}
+        <div class="knr-step-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title }}" class="knr-step-card__img" width="448" height="448" loading="lazy">
+          {%- elsif block.settings.image_url != blank -%}
+            <img src="{{ block.settings.image_url }}" alt="{{ block.settings.title }}" class="knr-step-card__img" width="448" height="448" loading="lazy">
+          {%- elsif block.settings.fallback_image != blank -%}
+            <img src="{% if block.settings.fallback_image contains '//' %}{{ block.settings.fallback_image }}{% else %}{{ block.settings.fallback_image | asset_url }}{% endif %}" alt="{{ block.settings.title }}" class="knr-step-card__img" width="448" height="448" loading="lazy">
+          {%- endif -%}
+
+          <div class="knr-step-card__meta">
+            <span class="knr-step-card__number">{{ block.settings.step_number }}</span>
+
+            <div class="knr-step-card__link-row">
+              {%- if block.settings.link_url != blank -%}
+                <a href="{{ block.settings.link_url }}" class="knr-step-card__link">{{ block.settings.link_label | default: "Découvrir" }}</a>
+              {%- else -%}
+                <span class="knr-step-card__link">{{ block.settings.link_label | default: "Découvrir" }}</span>
+              {%- endif -%}
+            </div>
+
+            <div class="knr-step-card__desc">
+              {{ block.settings.description }}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="knr-carousel-progress" data-carousel-progress aria-hidden="true">
+      <span class="knr-carousel-progress__fill"></span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KNR How to use",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre de la section",
+      "default": "How to use"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Étape d'utilisation",
+      "settings": [
+        { "type": "text", "id": "step_number", "label": "Numéro d'étape", "default": "01" },
+        { "type": "image_picker", "id": "image", "label": "Image de l'étape" },
+        { "type": "text", "id": "fallback_image", "label": "Image asset de secours", "default": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container2.png?v=1790000610" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Concentré de pureté active. Huile végétale aux propriétés anti-oxydantes puissantes pour un éclat retrouvé." },
+        { "type": "text", "id": "link_label", "label": "Texte du lien", "default": "Découvrir" },
+        { "type": "url", "id": "link_url", "label": "URL du lien" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR How to use",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "fallback_image": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container2.png?v=1790000610",
+            "description": "Concentré de pureté active. Huile végétale aux propriétés anti-oxydantes puissantes pour un éclat retrouvé."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "fallback_image": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container3.png?v=1790000613",
+            "description": "Éclat et uniformité retrouvés. Cible les taches et les irrégularités de grain de peau."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "fallback_image": "https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image-container4.png?v=1790000616",
+            "description": "Fermeté et nutrition intense. Répare la barrière cutanée et lisse les contours du visage."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

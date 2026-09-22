@@ -1,0 +1,249 @@
+{%- comment -%}
+  KNR Before/After Slider & Testimonials Section
+{%- endcomment -%}
+
+{%- comment -%}
+  Resolve the before/after pair, most specific source first:
+    1. product.metafields.custom.before_after -> metaobject
+       (fields: before_image, after_image, label_before, label_after)
+    2. product.metafields.custom.before_image / .after_image
+    3. this section's own image settings
+  The section is skipped entirely when no pair resolves.
+{%- endcomment -%}
+{%- assign ba_before = blank -%}
+{%- assign ba_after = blank -%}
+{%- assign ba_label_before = section.settings.label_before | default: 'Before' -%}
+{%- assign ba_label_after = section.settings.label_after | default: 'after' -%}
+
+{%- assign ba_entry = product.metafields.custom.before_after.value -%}
+{%- if ba_entry != blank -%}
+  {%- assign ba_entry_before = ba_entry.before_image.value | default: ba_entry.before_image -%}
+  {%- assign ba_entry_after = ba_entry.after_image.value | default: ba_entry.after_image -%}
+  {%- if ba_entry_before != blank -%}
+    {%- assign ba_before = ba_entry_before | image_url: width: 1400 -%}
+  {%- endif -%}
+  {%- if ba_entry_after != blank -%}
+    {%- assign ba_after = ba_entry_after | image_url: width: 1400 -%}
+  {%- endif -%}
+  {%- assign entry_lb = ba_entry.label_before.value | default: ba_entry.label_before -%}
+  {%- assign entry_la = ba_entry.label_after.value | default: ba_entry.label_after -%}
+  {%- if entry_lb != blank -%}{%- assign ba_label_before = entry_lb -%}{%- endif -%}
+  {%- if entry_la != blank -%}{%- assign ba_label_after = entry_la -%}{%- endif -%}
+{%- endif -%}
+
+{%- if ba_before == blank -%}
+  {%- assign mf_before = product.metafields.custom.before_image.value -%}
+  {%- if mf_before != blank -%}{%- assign ba_before = mf_before | image_url: width: 1400 -%}{%- endif -%}
+{%- endif -%}
+{%- if ba_after == blank -%}
+  {%- assign mf_after = product.metafields.custom.after_image.value -%}
+  {%- if mf_after != blank -%}{%- assign ba_after = mf_after | image_url: width: 1400 -%}{%- endif -%}
+{%- endif -%}
+
+{%- if ba_before == blank and section.settings.before_image != blank -%}
+  {%- assign ba_before = section.settings.before_image | image_url: width: 1400 -%}
+{%- endif -%}
+{%- if ba_after == blank and section.settings.after_image != blank -%}
+  {%- assign ba_after = section.settings.after_image | image_url: width: 1400 -%}
+{%- endif -%}
+
+{%- if ba_before != blank and ba_after != blank -%}
+<section class="knr-before-after knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 80 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 80 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 64 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 40 }}px;">
+  <div class="knr-before-after__container">
+    
+    <div class="knr-before-after__header">
+      <h2 class="knr-section-heading">{{ section.settings.title | default: "Ce que disent nos clientes" }}</h2>
+      <p class="knr-before-after__desc">
+        {{ section.settings.subtitle | default: "Des transformations visibles dès 4 semaines. Nos clientes témoignent d'une peau visiblement régénérée, plus ferme et lumineuse." }}
+      </p>
+    </div>
+
+    {%- comment -%} Interactive Slider {%- endcomment -%}
+    <div class="knr-ba-slider" id="knr-ba-slider">
+      <!-- After image (base layer) -->
+      <img src="{{ ba_after }}" alt="{{ ba_label_after | escape }}" class="knr-ba-slider__img" width="1280" height="640">
+      <span class="knr-ba-slider__label knr-ba-slider__label--after">{{ ba_label_after }}</span>
+
+      <!-- Before image (clipped overlay) -->
+      <div class="knr-ba-slider__before-wrap">
+        <img src="{{ ba_before }}" alt="{{ ba_label_before | escape }}" class="knr-ba-slider__img" width="1280" height="640">
+        <span class="knr-ba-slider__label knr-ba-slider__label--before">{{ ba_label_before }}</span>
+      </div>
+
+      <!-- Drag Handle -->
+      <div class="knr-ba-slider__handle">
+        <div class="knr-ba-slider__handle-btn" aria-label="Faire glisser pour comparer">
+          <img src="{{ 'menu-icon0.svg' | asset_url }}" alt="" width="12" height="12">
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Testimonial Row {%- endcomment -%}
+    <div class="knr-ba-testimonial">
+      <div class="knr-ba-testimonial__viewport">
+        <div class="knr-ba-testimonial__track" data-testimonial-track>
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              <div class="knr-ba-testimonial__slide" {{ block.shopify_attributes }}>
+                <div class="knr-ba-testimonial__content">
+                  <div class="knr-ba-testimonial__rating">
+                    <div class="knr-stars">
+                      {%- assign stars = block.settings.rating | default: 5 -%}
+                      {%- for i in (1..5) -%}
+                        {%- if forloop.index <= stars -%}
+                          <img src="{{ 'star-icon0.svg' | asset_url }}" alt="" width="12" height="12">
+                        {%- else -%}
+                          <img src="{{ 'star-icon24.svg' | asset_url }}" alt="" width="12" height="12">
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                    <span class="knr-ba-testimonial__author">{{ block.settings.author }}</span>
+                  </div>
+                  <p class="knr-ba-testimonial__text">{{ block.settings.text }}</p>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="knr-ba-testimonial__slide">
+              <div class="knr-ba-testimonial__content">
+                <div class="knr-ba-testimonial__rating">
+                  <div class="knr-stars">
+                    {%- for i in (1..5) -%}
+                      <img src="{{ 'star-icon0.svg' | asset_url }}" alt="" width="12" height="12">
+                    {%- endfor -%}
+                  </div>
+                  <span class="knr-ba-testimonial__author">{{ section.settings.testimonial_author | default: "Clara T." }}</span>
+                </div>
+                <p class="knr-ba-testimonial__text">{{ section.settings.testimonial_text }}</p>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="knr-ba-nav-arrows" data-testimonial-nav>
+        <button type="button" class="knr-nav-btn" data-testimonial-prev aria-label="Témoignage précédent">
+          <img src="{{ 'chevron-icon1.svg' | asset_url }}" alt="" width="48" height="48">
+        </button>
+        <button type="button" class="knr-nav-btn" data-testimonial-next aria-label="Témoignage suivant">
+          <img src="{{ 'chevron-icon2.svg' | asset_url }}" alt="" width="48" height="48">
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "KNR Avant / Après",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Ce que disent nos clientes"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Sous-titre",
+      "default": "Des transformations visibles dès 4 semaines. Nos clientes témoignent d'une peau visiblement régénérée, plus ferme et lumineuse."
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Image Avant (Sélecteur)"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "Image Après (Sélecteur)"
+    },
+    {
+      "type": "text",
+      "id": "label_before",
+      "label": "Étiquette « avant »",
+      "default": "Before"
+    },
+    {
+      "type": "text",
+      "id": "label_after",
+      "label": "Étiquette « après »",
+      "default": "after"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_author",
+      "label": "Auteur du témoignage",
+      "default": "Clara T."
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_text",
+      "label": "Texte du témoignage",
+      "default": "J'utilise ce sérum depuis trois mois et la différence est saisissante. Mes rides d'expression se sont considérablement atténuées et mon teint a retrouvé une luminosité que je n'avais plus depuis des années. Une texture soyeuse qui pénètre instantanément. Je ne peux plus m'en passer."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Témoignage",
+      "settings": [
+        { "type": "text", "id": "author", "label": "Auteur", "default": "Clara T." },
+        { "type": "range", "id": "rating", "label": "Note", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Texte du témoignage", "default": "J'utilise ce sérum depuis trois mois et la différence est saisissante." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR Avant / Après"
+    }
+  ]
+}
+{% endschema %}

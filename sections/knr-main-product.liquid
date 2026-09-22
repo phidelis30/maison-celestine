@@ -1,0 +1,617 @@
+{%- comment -%}
+  KNR Main Product Section
+  Supports configurable gallery layouts (stacked, left_thumbnails, bottom_thumbnails, grid, single view)
+  Supports customizable & reorderable product information blocks
+  Dynamic variants, metafields, metaobjects, and AJAX Add to Cart
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign has_title_block = false -%}
+{%- for b in section.blocks -%}
+  {%- if b.type == 'title' -%}{%- assign has_title_block = true -%}{%- endif -%}
+{%- endfor -%}
+
+<section class="knr-main-product knr-width--{{ section.settings.content_width | default: 'wide' }}" style="--knr-pt: {{ section.settings.padding_top | default: 0 }}px; --knr-pb: {{ section.settings.padding_bottom | default: 0 }}px; --knr-pt-m: {{ section.settings.padding_top_mobile | default: 0 }}px; --knr-pb-m: {{ section.settings.padding_bottom_mobile | default: 0 }}px;" id="knr-main-product" data-product-id="{{ product.id }}">
+  <div class="knr-main-product__container">
+    
+    {%- comment -%} MEDIA GALLERY {%- endcomment -%}
+    <div class="knr-gallery knr-gallery--{{ section.settings.gallery_layout }}">
+      
+      {%- if section.settings.gallery_layout == 'left_thumbnails' -%}
+        <div class="knr-gallery__thumbs">
+          {%- for image in product.images -%}
+            <div class="knr-gallery__thumb {% if forloop.first %}is-active{% endif %}" data-img="{{ image | image_url: width: 1400 }}">
+              <img src="{{ image | image_url: width: 140 }}" alt="{{ image.alt | default: product.title }}" width="70" height="70" loading="lazy">
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="knr-gallery__main">
+        {%- if product.featured_image != blank -%}
+          <img 
+            src="{{ product.featured_image | image_url: width: 1440 }}" 
+            alt="{{ product.featured_image.alt | default: product.title }}" 
+            class="knr-gallery__main-img" 
+            id="knr-main-img"
+            width="1440" 
+            height="760"
+            data-default-img="{{ product.featured_image | image_url: width: 1440 }}"
+          >
+        {%- else -%}
+          <img src="https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image0.png?v=1789999071" alt="{{ product.title }}" class="knr-gallery__main-img" id="knr-main-img" width="1440" height="760">
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.gallery_layout == 'bottom_thumbnails' -%}
+        <div class="knr-gallery__thumbs">
+          {%- for image in product.images -%}
+            <div class="knr-gallery__thumb {% if forloop.first %}is-active{% endif %}" data-img="{{ image | image_url: width: 1400 }}">
+              <img src="{{ image | image_url: width: 140 }}" alt="{{ image.alt | default: product.title }}" width="70" height="70" loading="lazy">
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.gallery_layout == 'stacked' or section.settings.gallery_layout == 'grid_2_columns' -%}
+        {%- comment -%}
+          The list holds every photo, starting with the principal one, so the
+          shopper can always come back to it. Two are shown at a time.
+        {%- endcomment -%}
+        <div class="knr-gallery__secondary-images" data-gallery-track>
+          {%- for image in product.images limit: 12 -%}
+            <img
+              src="{{ image | image_url: width: 940 }}"
+              alt="{{ image.alt | default: product.title }}"
+              class="knr-gallery__secondary-img{% if forloop.first %} is-selected{% endif %}"
+              width="468"
+              height="609"
+              loading="lazy"
+              data-gallery-select
+              data-img="{{ image | image_url: width: 1440 }}"
+              role="button"
+              tabindex="0"
+              aria-label="{{ 'Afficher la photo ' | append: forloop.index }}"
+            >
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} One dot per page of two photos {%- endcomment -%}
+        {%- assign photo_count = product.images.size -%}
+        {%- if photo_count > 12 -%}{%- assign photo_count = 12 -%}{%- endif -%}
+        {%- assign page_count = photo_count | plus: 1 | divided_by: 2 -%}
+        {%- if page_count > 1 -%}
+          <div class="knr-gallery__dots" data-gallery-dots>
+            {%- for i in (1..page_count) -%}
+              <button
+                type="button"
+                class="knr-gallery__dot{% if forloop.first %} is-active{% endif %}"
+                data-gallery-page="{{ forloop.index0 }}"
+                aria-label="{{ 'Voir les photos, page ' | append: forloop.index }}"
+              ></button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} Mobile gallery arrows {%- endcomment -%}
+    <button type="button" class="knr-gallery__arrow knr-gallery__arrow--prev" data-gallery-prev aria-label="Image précédente" hidden>
+      <img src="{{ 'icon-container0.svg' | asset_url }}" alt="" width="16" height="16">
+    </button>
+    <button type="button" class="knr-gallery__arrow knr-gallery__arrow--next" data-gallery-next aria-label="Image suivante" hidden>
+      <img src="{{ 'icon-container0.svg' | asset_url }}" alt="" width="16" height="16">
+    </button>
+
+    {%- comment -%} PRODUCT INFO COLUMN {%- endcomment -%}
+    <div class="knr-product-info">
+      {%- comment -%} Mobile gallery position indicator {%- endcomment -%}
+      <div class="knr-gallery-progress" aria-hidden="true">
+        <span class="knr-gallery-progress__fill"></span>
+      </div>
+
+      <div class="knr-product-info__inner">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'breadcrumb' -%}
+            <div class="knr-breadcrumb" {{ block.shopify_attributes }}>
+              {%- assign col1 = nil -%}
+              {%- assign col2 = nil -%}
+              {%- for c in product.collections -%}
+                {%- if c.handle contains 'anti-age' -%}
+                  {%- assign col1 = c -%}
+                {%- elsif c.handle contains 'cactus' -%}
+                  {%- assign col2 = c -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if col1 != blank and col2 != blank -%}
+                <a href="{{ col1.url }}" style="color: inherit; text-decoration: none;">{{ col1.title }}</a>
+                <span> / </span>
+                <a href="{{ col2.url }}" style="color: inherit; text-decoration: none;">{{ col2.title }}</a>
+              {%- elsif product.collections.size >= 2 -%}
+                <a href="{{ product.collections[0].url }}" style="color: inherit; text-decoration: none;">{{ product.collections[0].title }}</a>
+                <span> / </span>
+                <a href="{{ product.collections[1].url }}" style="color: inherit; text-decoration: none;">{{ product.collections[1].title }}</a>
+              {%- elsif product.collections.size == 1 -%}
+                <a href="{{ product.collections[0].url }}" style="color: inherit; text-decoration: none;">{{ product.collections[0].title }}</a>
+                <span> / </span>
+                <span>Collection Cactus</span>
+              {%- else -%}
+                <a href="{{ routes.collections_url }}/soins-anti-age" style="color: inherit; text-decoration: none;">Soins anti-âge</a>
+                <span> / </span>
+                <a href="{{ routes.collections_url }}/collection-cactus" style="color: inherit; text-decoration: none;">Collection Cactus</a>
+              {%- endif -%}
+            </div>
+
+          {%- when 'badges' -%}
+            <div class="knr-badges" {{ block.shopify_attributes }}>
+              {%- assign badges = product.metafields.custom.benefits_badges.value -%}
+              {%- if badges != blank -%}
+                {%- for badge in badges -%}
+                  <span class="knr-badge">{{ badge }}</span>
+                {%- endfor -%}
+              {%- else -%}
+                <span class="knr-badge">UNIFIE</span>
+                <span class="knr-badge">PROTÈGE</span>
+              {%- endif -%}
+            </div>
+
+          {%- when 'title' -%}
+            <div class="knr-product-title-row" {{ block.shopify_attributes }}>
+              <h1 class="knr-product-title">{{ product.title }}</h1>
+              {%- for rb in section.blocks -%}
+                {%- if rb.type == 'rating' -%}
+                  <div class="knr-product-rating" {{ rb.shopify_attributes }}>
+                    <div class="knr-product-rating__row">
+                      <div class="knr-stars">
+                        {%- for i in (1..5) -%}
+                          <img src="{{ 'star-icon0.svg' | asset_url }}" alt="" width="12" height="12">
+                        {%- endfor -%}
+                      </div>
+                      <span class="knr-rating-score">{{ rb.settings.rating_score | default: "4.7" }}</span>
+                    </div>
+                    <span class="knr-rating-count">{{ rb.settings.rating_count | default: "200 avis" }}</span>
+                  </div>
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+          {%- when 'rating' -%}
+            {%- unless has_title_block -%}
+              <div class="knr-product-title-row" {{ block.shopify_attributes }}>
+                <div class="knr-product-rating">
+                  <div class="knr-product-rating__row">
+                    <div class="knr-stars">
+                      {%- for i in (1..5) -%}
+                        <img src="{{ 'star-icon0.svg' | asset_url }}" alt="" width="12" height="12">
+                      {%- endfor -%}
+                    </div>
+                    <span class="knr-rating-score">{{ block.settings.rating_score | default: "4.7" }}</span>
+                  </div>
+                  <span class="knr-rating-count">{{ block.settings.rating_count | default: "200 avis" }}</span>
+                </div>
+              </div>
+            {%- endunless -%}
+
+          {%- when 'scores' -%}
+            <div class="knr-scores-row" {{ block.shopify_attributes }}>
+              <div class="knr-score-badge">
+                <span class="knr-score-badge__name">Yuka</span>
+                <span class="knr-score-badge__value">{{ product.metafields.custom.yuka_score.value | default: "100/100" }}</span>
+              </div>
+              <div class="knr-score-divider"></div>
+              <div class="knr-score-badge">
+                <span class="knr-score-badge__name">INCI Beauty</span>
+                <span class="knr-score-badge__value">{{ product.metafields.custom.inci_score.value | default: "20/20" }}</span>
+              </div>
+            </div>
+
+          {%- when 'short_description' -%}
+            <div class="knr-short-desc" {{ block.shopify_attributes }}>
+              {%- if block.settings.custom_text != blank -%}
+                {{ block.settings.custom_text }}
+              {%- else -%}
+                {{ product.description | strip_html | truncate: 160 | default: "Une huile anti-âge sèche ultra fine qui travaille en synergie avec la peau pour la maintenir ferme, pleine de vitalité tout en lissant les rides." }}
+              {%- endif -%}
+            </div>
+
+          {%- when 'variant_picker' -%}
+            <div class="knr-variants" {{ block.shopify_attributes }}>
+              <span class="knr-variants__label">Taille</span>
+              <div class="knr-variants__options">
+                {%- for variant in product.variants -%}
+                  <button 
+                    type="button" 
+                    class="knr-variant-btn {% if variant.id == current_variant.id %}is-active{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
+                    data-variant-id="{{ variant.id }}"
+                    data-price="{{ variant.price | money }}"
+                    data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
+                    data-unit="{% if variant.title contains '150' %}€100.00 par 100 mL{% else %}€75.00 par 100 mL{% endif %}"
+                    data-img="{{ variant.featured_image | image_url: width: 1400 }}"
+                    data-available="{{ variant.available }}"
+                  >
+                    {{ variant.title }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+
+          {%- when 'price' -%}
+            <div class="knr-price-block" {{ block.shopify_attributes }}>
+              <div class="knr-price-row">
+                <span class="knr-price-current">{{ current_variant.price | money }}</span>
+                <span class="knr-price-compare" style="display: {% if current_variant.compare_at_price > current_variant.price %}inline{% else %}none{% endif %};">
+                  {{ current_variant.compare_at_price | money }}
+                </span>
+              </div>
+              <span class="knr-price-unit">{{ product.metafields.custom.unit_price.value | default: "€75.00 par 100 mL" }}</span>
+            </div>
+
+          {%- when 'buy_buttons' -%}
+            <div class="knr-buy-container" {{ block.shopify_attributes }}>
+              <form method="post" action="{{ routes.cart_add_url }}" class="knr-product-form">
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <input type="hidden" name="return_to" value="back">
+                {%- assign atc_label = block.settings.button_text | default: "Ajouter au panier" -%}
+                {%- assign sold_out_label = block.settings.sold_out_text | default: "Rupture de stock" -%}
+                <button
+                  type="submit"
+                  class="knr-atc-btn"
+                  data-available-text="{{ atc_label | escape }}"
+                  data-sold-out-text="{{ sold_out_label | escape }}"
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  {% if current_variant.available %}{{ atc_label }}{% else %}{{ sold_out_label }}{% endif %}
+                </button>
+              </form>
+            </div>
+
+          {%- when 'delivery_notice' -%}
+            {%- comment -%}
+              One message per line in the block setting. Falls back to the
+              delivery-estimate metafield when nothing is configured.
+            {%- endcomment -%}
+            {%- assign notice_lines = block.settings.messages | strip | newline_to_br | split: '<br />' -%}
+            {%- assign notice_count = 0 -%}
+            {%- for line in notice_lines -%}
+              {%- assign trimmed = line | strip -%}
+              {%- if trimmed != blank -%}{%- assign notice_count = notice_count | plus: 1 -%}{%- endif -%}
+            {%- endfor -%}
+
+            <div class="knr-delivery-notice" {{ block.shopify_attributes }}
+              data-delivery-autoplay="{{ block.settings.autoplay_speed | default: 4 }}">
+              <div class="knr-delivery-notice__viewport">
+                <div class="knr-delivery-notice__track" data-delivery-track>
+                  {%- if notice_count > 0 -%}
+                    {%- for line in notice_lines -%}
+                      {%- assign trimmed = line | strip -%}
+                      {%- if trimmed != blank -%}
+                        <div class="knr-delivery-notice__slide">{{ trimmed }}</div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- else -%}
+                    <div class="knr-delivery-notice__slide">
+                      En stock, livraison estimée <strong>{{ product.metafields.custom.delivery_estimate.value | default: "Mercredi 25 février" }}</strong>.
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {%- assign dot_total = notice_count -%}
+              {%- if dot_total < 1 -%}{%- assign dot_total = 1 -%}{%- endif -%}
+              <div class="knr-delivery-progress" data-delivery-dots>
+                {%- for i in (1..dot_total) -%}
+                  <button
+                    type="button"
+                    class="knr-delivery-progress__dot{% if forloop.first %} is-active{% endif %}"
+                    data-delivery-index="{{ forloop.index0 }}"
+                    aria-label="Message {{ forloop.index }}"
+                  ></button>
+                {%- endfor -%}
+              </div>
+            </div>
+
+          {%- when 'accordion' -%}
+            {%- assign accordion_content = block.settings.content -%}
+            {%- if block.settings.metafield_key == 'description' -%}
+              {%- assign accordion_content = product.description -%}
+            {%- elsif block.settings.metafield_key == 'bienfaits' -%}
+              {%- assign accordion_content = product.metafields.custom.tab_bienfaits.value | default: block.settings.content -%}
+            {%- elsif block.settings.metafield_key == 'ingredients' -%}
+              {%- assign accordion_content = product.metafields.custom.tab_ingredients.value | default: block.settings.content -%}
+            {%- elsif block.settings.metafield_key == 'peaux' -%}
+              {%- assign accordion_content = product.metafields.custom.tab_peaux.value | default: block.settings.content -%}
+            {%- endif -%}
+
+            <div class="knr-accordion {% if block.settings.open_by_default %}is-open{% endif %}" {{ block.shopify_attributes }}>
+              <div class="knr-accordion__header">
+                <span>{{ block.settings.title }}</span>
+                <img src="{{ 'chevron-icon3.svg' | asset_url }}" alt="" class="knr-accordion__icon" width="16" height="20">
+              </div>
+              <div class="knr-accordion__content">
+                {{ accordion_content }}
+              </div>
+            </div>
+
+          {%- when 'related_ritual' -%}
+            {%- comment -%}
+              Prefer the curated metafield; otherwise fall back to the product's
+              own collection so the cards still link and add to cart.
+            {%- endcomment -%}
+            {%- assign ritual_prods = product.metafields.custom.ritual_products.value -%}
+            {%- if ritual_prods == blank -%}
+              {%- assign ritual_collection = product.collections.first -%}
+              {%- if ritual_collection != blank -%}
+                {%- assign ritual_prods = ritual_collection.products -%}
+              {%- endif -%}
+            {%- endif -%}
+
+            <div class="knr-ritual" {{ block.shopify_attributes }}>
+              <div class="knr-ritual__header">
+                <div class="knr-ritual__title">{{ block.settings.title | default: "Complétez votre rituel" }}</div>
+                <button type="button" class="knr-ritual__icon" data-ritual-scroll aria-label="Faire défiler les produits">
+                  <img src="{{ 'related-products-icon0.svg' | asset_url }}" alt="" width="16" height="16">
+                </button>
+              </div>
+
+              <div class="knr-ritual__items" data-ritual-track>
+                {%- if ritual_prods != blank -%}
+                  {%- for r_prod in ritual_prods limit: 8 -%}
+                    {%- if r_prod.id == product.id -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {%- assign r_variant = r_prod.selected_or_first_available_variant -%}
+                    <div class="knr-ritual-card">
+                      <a href="{{ r_prod.url }}" class="knr-ritual-card__link">
+                        <div class="knr-ritual-card__img-wrap">
+                          <img src="{{ r_prod.featured_image | image_url: width: 320 }}" alt="{{ r_prod.title | escape }}" class="knr-ritual-card__img" width="160" height="208" loading="lazy">
+                        </div>
+                        <div class="knr-ritual-card__info">
+                          <span class="knr-ritual-card__title">{{ r_prod.title }}</span>
+                          <span class="knr-ritual-card__price">{{ r_prod.price | money }}</span>
+                        </div>
+                      </a>
+
+                      {%- if r_variant != blank and r_variant.available -%}
+                        <form method="post" action="{{ routes.cart_add_url }}" class="knr-ritual-card__form">
+                          <input type="hidden" name="id" value="{{ r_variant.id }}">
+                          <input type="hidden" name="quantity" value="1">
+                          <input type="hidden" name="return_to" value="back">
+                          <button
+                            type="submit"
+                            class="knr-ritual-card__quick-add"
+                            aria-label="Ajouter {{ r_prod.title | escape }} au panier"
+                          >
+                            <img src="{{ 'product-price-icon0.svg' | asset_url }}" alt="" width="16" height="16">
+                          </button>
+                        </form>
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- comment -%} No products yet: show the design placeholders only {%- endcomment -%}
+                  {%- assign fb_images = 'https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image1.png?v=1789999065,https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image2.png?v=1789999067,https://cdn.shopify.com/s/files/1/0746/5520/3505/files/product-image3.png?v=1789999068' | split: ',' -%}
+                  {%- assign fb_titles = 'Huile Précieuse,Sérum Éclat,Crème Régénérante' | split: ',' -%}
+                  {%- assign fb_prices = '55.00 €,65.00 €,85.00 €' | split: ',' -%}
+                  {%- for fb_title in fb_titles -%}
+                    <div class="knr-ritual-card">
+                      <div class="knr-ritual-card__link">
+                        <div class="knr-ritual-card__img-wrap">
+                          <img src="{% assign fb_src = fb_images[forloop.index0] %}{% if fb_src contains '//' %}{{ fb_src }}{% else %}{{ fb_src | asset_url }}{% endif %}" alt="{{ fb_title }}" class="knr-ritual-card__img" width="160" height="208" loading="lazy">
+                        </div>
+                        <div class="knr-ritual-card__info">
+                          <span class="knr-ritual-card__title">{{ fb_title }}</span>
+                          <span class="knr-ritual-card__price">{{ fb_prices[forloop.index0] }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KNR Produit Principal",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Espacement (marges intérieures)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse — bureau",
+      "min": 0, "max": 200, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Marge haute — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Marge basse — mobile",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        { "value": "full", "label": "Pleine largeur" },
+        { "value": "wide", "label": "Large" },
+        { "value": "box", "label": "Boîte" }
+      ],
+      "default": "wide"
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Disposition de la galerie photo",
+      "options": [
+        { "value": "stacked", "label": "Images empilées (Design Figma)" },
+        { "value": "left_thumbnails", "label": "Vignettes à gauche" },
+        { "value": "bottom_thumbnails", "label": "Vignettes en bas" },
+        { "value": "grid_2_columns", "label": "Grille 2 colonnes" }
+      ],
+      "default": "stacked"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "breadcrumb",
+      "name": "Fil d'Ariane",
+      "limit": 1
+    },
+    {
+      "type": "badges",
+      "name": "Badges de bienfaits",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Titre du produit",
+      "limit": 1
+    },
+    {
+      "type": "rating",
+      "name": "Note et avis",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "rating_score", "label": "Note", "default": "4.7" },
+        { "type": "text", "id": "rating_count", "label": "Nombre d'avis", "default": "200 avis" }
+      ]
+    },
+    {
+      "type": "scores",
+      "name": "Scores Yuka & INCI",
+      "limit": 1
+    },
+    {
+      "type": "short_description",
+      "name": "Description courte",
+      "limit": 1,
+      "settings": [
+        { "type": "textarea", "id": "custom_text", "label": "Texte personnalisé (laisser vide pour description produit)" }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Sélecteur de variantes",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Prix & Prix au litre",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Bouton d'achat (ATC)",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "button_text", "label": "Texte du bouton", "default": "Ajouter au panier" },
+        { "type": "text", "id": "sold_out_text", "label": "Texte en rupture de stock", "default": "Rupture de stock" }
+      ]
+    },
+    {
+      "type": "delivery_notice",
+      "name": "Estimation de livraison",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "messages",
+          "label": "Messages",
+          "info": "Un message par ligne. Laisser vide pour utiliser le metafield d'estimation de livraison."
+        },
+        {
+          "type": "range",
+          "id": "autoplay_speed",
+          "label": "Défilement automatique",
+          "min": 0, "max": 10, "step": 1, "unit": "s",
+          "info": "0 désactive le défilement automatique.",
+          "default": 4
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Onglet Accordéon",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Description" },
+        { 
+          "type": "select", 
+          "id": "metafield_key", 
+          "label": "Source de données",
+          "options": [
+            { "value": "custom", "label": "Texte personnalisé ci-dessous" },
+            { "value": "description", "label": "Description complète du produit" },
+            { "value": "bienfaits", "label": "Metafield Bienfaits" },
+            { "value": "ingredients", "label": "Metafield Ingrédients clés" },
+            { "value": "peaux", "label": "Metafield Adapté aux peaux" }
+          ],
+          "default": "custom"
+        },
+        { "type": "richtext", "id": "content", "label": "Contenu texte personnalisé" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvrir par défaut", "default": false }
+      ]
+    },
+    {
+      "type": "related_ritual",
+      "name": "Rituel complémentaire",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Complétez votre rituel" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KNR Produit Principal",
+      "blocks": [
+        { "type": "breadcrumb" },
+        { "type": "badges" },
+        { "type": "title" },
+        { "type": "rating" },
+        { "type": "scores" },
+        { "type": "short_description" },
+        { "type": "variant_picker" },
+        { "type": "price" },
+        { "type": "buy_buttons" },
+        { "type": "delivery_notice" },
+        { "type": "accordion", "settings": { "title": "Description", "metafield_key": "description", "open_by_default": true } },
+        { "type": "accordion", "settings": { "title": "Bienfaits", "metafield_key": "bienfaits" } },
+        { "type": "accordion", "settings": { "title": "Ingrédients clés", "metafield_key": "ingredients" } },
+        { "type": "accordion", "settings": { "title": "Adapté aux peaux", "metafield_key": "peaux" } },
+        { "type": "related_ritual" }
+      ]
+    }
+  ]
+}
+{% endschema %}
